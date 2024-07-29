@@ -1,5 +1,3 @@
-
-
 - Nuclear
     - Machines
         > Separator
@@ -10,11 +8,11 @@
 
 
 
-
 - Fossil
     - Machines
         > Oil Pump
         > Refinery
+        > Re-processor
     - Fossil Destination
         > Gasoline
         > kerosene
@@ -26,4 +24,9 @@
         > kerosene
         > Diesel
     - Generator
-        > Motor Generator
+        > Combustion Generator (Liquidos)
+        > Burn Generator (Sólidos)
+- Bio
+    - Fuels
+        > Alcohol
+        > Ethanol
