@@ -1,8 +1,7 @@
 package com.Infinity.Nexus.Generators.screen;
 
 import com.Infinity.Nexus.Core.slots.ComponentSlot;
-import com.Infinity.Nexus.Core.slots.FluidItemSlot;
-import com.Infinity.Nexus.Core.slots.InputSlot;
+import com.Infinity.Nexus.Core.slots.ResultSlot;
 import com.Infinity.Nexus.Core.slots.UpgradeSlot;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.RefineryBlockEntity;
@@ -14,8 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.Nullable;
 
 public class RefineryMenu extends AbstractContainerMenu {
     public final RefineryBlockEntity blockEntity;
@@ -38,15 +35,31 @@ public class RefineryMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+
             this.addSlot(new ComponentSlot(iItemHandler, 0, 8, 29));
             this.addSlot(new UpgradeSlot(iItemHandler, 1, -11, 11));
             this.addSlot(new UpgradeSlot(iItemHandler, 2,  -11,23));
             this.addSlot(new UpgradeSlot(iItemHandler, 3,  -11,35));
             this.addSlot(new UpgradeSlot(iItemHandler, 4,  -11,47));
 
+            this.addSlot(new ResultSlot(iItemHandler, 5, 134, 52));
+
         });
 
         addDataSlots(data);
+    }
+
+
+    public boolean isCrafting() {
+        return data.get(0) > 0;
+    }
+
+    public int getScaledProgress() {
+        int progress = this.data.get(0);
+        int maxProgress = this.data.get(1);  // Max Progress
+        int progressArrowSize = 26; // This is the height in pixels of your arrow
+
+        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
@@ -65,7 +78,7 @@ public class RefineryMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 7;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 6;  // must be the number of slots you have!
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
@@ -117,4 +130,5 @@ public class RefineryMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
+
 }

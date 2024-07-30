@@ -6,8 +6,10 @@ import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.config.Config;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import com.Infinity.Nexus.Generators.screen.ModMenuTypes;
+import com.Infinity.Nexus.Generators.screen.RefineryScreen;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -103,6 +105,8 @@ public class InfinityNexusGenerators
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
+            MenuScreens.register(ModMenuTypes.REFINERY_MENU.get(), RefineryScreen::new);
+
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
