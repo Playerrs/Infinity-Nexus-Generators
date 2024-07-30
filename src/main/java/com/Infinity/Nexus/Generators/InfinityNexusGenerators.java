@@ -8,6 +8,8 @@ import com.Infinity.Nexus.Generators.item.ModItems;
 import com.Infinity.Nexus.Generators.screen.ModMenuTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;

@@ -8,7 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModItems {
-    static DeferredRegister<Item> ITEMS =
+    public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, InfinityNexusGenerators.MOD_ID);
 
     public static final RegistryObject<Item> DRILL = ITEMS.register("drill",
