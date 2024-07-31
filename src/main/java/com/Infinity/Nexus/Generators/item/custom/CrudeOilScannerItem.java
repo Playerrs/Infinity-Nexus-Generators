@@ -1,6 +1,5 @@
 package com.Infinity.Nexus.Generators.item.custom;
 
-import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,9 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.LevelChunkSection;
 
-import java.math.BigInteger;
 import java.util.Random;
 
 public class CrudeOilScannerItem extends Item {
@@ -30,8 +27,8 @@ public class CrudeOilScannerItem extends Item {
             //pPlayer.sendSystemMessage(Component.literal(String.valueOf(chunk.getStatus().getIndex()))); // pq da sempre 11?
 
             //Função que pega o purity do chunk
-            getChunkPurity(pPlayer, pLevel, chunk);
-            pPlayer.sendSystemMessage(Component.literal(chance + "% chance"));
+            int purity = getChunkPurity(pPlayer, pLevel, chunk); // Ta funcionando mas vai até 12 kkkkk
+            pPlayer.sendSystemMessage(Component.literal(purity + " of purity"));
         }
 
         pPlayer.getCooldowns().addCooldown(this, 20);                                // Adiciona cooldown
@@ -39,13 +36,21 @@ public class CrudeOilScannerItem extends Item {
 
         return InteractionResultHolder.sidedSuccess(itemStackInHand, pLevel.isClientSide());
     }
+
+
     private int getChunkPurity(Player pPlayer, Level pLevel, ChunkAccess pChunk) {
         Long chunkPurity = pPlayer.getServer().overworld().getSeed(); //Seed
-        int seed = (int) pPlayer.getServer().overworld().getSeed(); //Valor optimizado de seed
+        int seed = (int) pPlayer.getServer().overworld().getSeed(); //Valor optimizado de seed // 510337443
         int[] chunkPos =  {pChunk.getPos().x, pChunk.getPos().z}; //Posicao do chunk
 
-        pPlayer.sendSystemMessage(Component.literal("Seed: " + seed + " Chunk Pos: " + chunkPos[0] + "," + chunkPos[1]));
+        int seedLength = String.valueOf(seed).length();
+        int lastSeedNumber = Integer.parseInt(String.valueOf(seed).substring(seedLength - 1));
 
-        return 0;
+        int lastPosXNumber = Integer.parseInt(String.valueOf(chunkPos[0]).substring(String.valueOf(chunkPos[0]).length() - 1));
+        int lastPosZNumber = Integer.parseInt(String.valueOf(chunkPos[1]).substring(String.valueOf(chunkPos[1]).length() - 1));
+
+
+        return Math.abs(lastSeedNumber - lastPosXNumber) + Math.abs(lastSeedNumber - lastPosZNumber);
     }
+
 }
