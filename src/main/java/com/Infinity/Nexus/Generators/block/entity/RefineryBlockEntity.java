@@ -2,6 +2,7 @@ package com.Infinity.Nexus.Generators.block.entity;
 
 import com.Infinity.Nexus.Core.block.entity.common.SetMachineLevel;
 import com.Infinity.Nexus.Core.block.entity.common.SetUpgradeLevel;
+import com.Infinity.Nexus.Core.items.custom.ComponentItem;
 import com.Infinity.Nexus.Core.utils.ModUtils;
 import com.Infinity.Nexus.Generators.block.custom.Refinery;
 import com.Infinity.Nexus.Generators.screen.refinery.RefineryMenu;
@@ -141,15 +142,25 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         if (level.isClientSide) {
             return;
         }
-        int machineLevel = getMachineLevel()-1 <= 0 ? 0 : getMachineLevel()-1; ;
-        level.setBlock(blockPos, blockState.setValue(Refinery.LIT, machineLevel), 3);
+        //Sim
+        int machineLevel = getMachineLevel()-1 <= 0 ? 0 : getMachineLevel()-1;
+        //Verification for machine working
+        if (isRedstonePowered(blockPos, level) || !(itemHandler.getStackInSlot(COMPONENT_SLOT).isEmpty())) {
+            if(blockState.getValue(Refinery.LIT) != machineLevel){
+                level.setBlock(blockPos, blockState.setValue(Refinery.LIT, machineLevel), 3);
+            }
+            return;
+        }else if(blockState.getValue(Refinery.LIT) != machineLevel+9){
+            level.setBlock(blockPos, blockState.setValue(Refinery.LIT, machineLevel+9), 3);
+        }
+        //Machine Logic
 
-        if (isRedstonePowered(blockPos, level)) {
-            return;
-        }
-        if(itemHandler.getStackInSlot(COMPONENT_SLOT).isEmpty()){
-            return;
-        }
+        //increaseCraftingProgress(machineLevel);
+        //setChanged(pLevel, pPos, pState);
+        //if (hasProgressFinished()) {
+        //    craftItem();
+        //    resetProgress();
+        //}
     }
     private int getMachineLevel(){
         return ModUtils.getComponentLevel(this.itemHandler.getStackInSlot(COMPONENT_SLOT));
@@ -157,6 +168,7 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     private boolean isRedstonePowered(BlockPos pPos, Level level) {
         return level.hasNeighborSignal(pPos);
     }
+
 //
 //        if (isOutputSlotEmptyOrReceivable() && hasRecipe()) {
 //            increaseCraftingProcess();

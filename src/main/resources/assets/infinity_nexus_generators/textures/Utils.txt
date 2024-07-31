@@ -1,0 +1,1 @@
+Ruido das Imagens = 20, 0, 100
