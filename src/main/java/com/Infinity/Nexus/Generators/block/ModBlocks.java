@@ -1,15 +1,13 @@
 package com.Infinity.Nexus.Generators.block;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
-import com.Infinity.Nexus.Generators.block.custom.RefineryBlock;
+import com.Infinity.Nexus.Generators.block.custom.Refinery;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -22,7 +20,7 @@ public class ModBlocks {
 
 
     public static final RegistryObject<Block> REFINERY = registerBlock("refinery",
-            () -> new RefineryBlock(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).requiresCorrectToolForDrops().noParticlesOnBreak()));
+            () -> new Refinery(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).requiresCorrectToolForDrops().noParticlesOnBreak()));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

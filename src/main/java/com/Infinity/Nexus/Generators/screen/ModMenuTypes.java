@@ -1,6 +1,7 @@
 package com.Infinity.Nexus.Generators.screen;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
+import com.Infinity.Nexus.Generators.screen.refinery.RefineryMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;

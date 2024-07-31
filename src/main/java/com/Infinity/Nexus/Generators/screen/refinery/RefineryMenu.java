@@ -1,10 +1,11 @@
-package com.Infinity.Nexus.Generators.screen;
+package com.Infinity.Nexus.Generators.screen.refinery;
 
 import com.Infinity.Nexus.Core.slots.ComponentSlot;
 import com.Infinity.Nexus.Core.slots.ResultSlot;
 import com.Infinity.Nexus.Core.slots.UpgradeSlot;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.RefineryBlockEntity;
+import com.Infinity.Nexus.Generators.screen.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

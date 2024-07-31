@@ -1,49 +1,41 @@
 package com.Infinity.Nexus.Generators.block.custom;
 
+import com.Infinity.Nexus.Generators.block.common.CommonUpgrades;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.block.entity.RefineryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.BooleanOp;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.stream.Stream;
-
-public class RefineryBlock extends BaseEntityBlock {
-    public RefineryBlock(Properties pProperties) {
-        super(pProperties);
-    }
-
-
+public class Refinery extends BaseEntityBlock {
+    public static IntegerProperty LIT = IntegerProperty.create("lit", 0, 17);
     public static final DirectionProperty FACING;
 
-    public BlockState rotate(BlockState pState, Rotation pRot) {
-        return (BlockState)pState.setValue(FACING, pRot.rotate((Direction)pState.getValue(FACING)));
+    public Refinery(Properties pProperties) {super(pProperties);}
+
+    @Override
+    public BlockState rotate(BlockState pState, Rotation pRotation) {
+        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
     }
 
+    @Override
     public BlockState mirror(BlockState pState, Mirror pMirror) {
-        return pState.rotate(pMirror.getRotation((Direction)pState.getValue(FACING)));
+        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
     }
 
     static {
@@ -59,7 +51,7 @@ public class RefineryBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(FACING);
+        pBuilder.add(FACING, LIT);
     }
 
 
@@ -79,21 +71,12 @@ public class RefineryBlock extends BaseEntityBlock {
                 ((RefineryBlockEntity) blockEntity).drops();
             }
         }
-
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (!pLevel.isClientSide()) {
-            BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof RefineryBlockEntity) {
-                NetworkHooks.openScreen((ServerPlayer)pPlayer, (RefineryBlockEntity)entity, pPos);
-            } else {
-                throw new IllegalStateException("Our Container provider is missing!");
-            }
-        }
-
+        CommonUpgrades.setUpgrades(pLevel, pPos, pPlayer);
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
