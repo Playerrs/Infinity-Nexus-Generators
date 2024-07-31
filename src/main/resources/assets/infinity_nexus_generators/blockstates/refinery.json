@@ -1,19 +1,80 @@
+
 {
-  "variants": {
-    "facing=east": {
-      "model": "infinity_nexus_generators:block/refinery",
-      "y": 90
-    },
-    "facing=north": {
-      "model": "infinity_nexus_generators:block/refinery"
-    },
-    "facing=south": {
-      "model": "infinity_nexus_generators:block/refinery",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "infinity_nexus_generators:block/refinery",
-      "y": 270
-    }
+  "variants":{
+    "facing=north,lit=0":{"model": "infinity_nexus_generators:block/refinery"},
+    "facing=east,lit=0":{"model": "infinity_nexus_generators:block/refinery", "y": 90},
+    "facing=south,lit=0":{"model": "infinity_nexus_generators:block/refinery", "y": 180},
+    "facing=west,lit=0":{"model": "infinity_nexus_generators:block/refinery", "y": 270},
+    "facing=north,lit=1":{"model": "infinity_nexus_generators:block/refinery_1"},
+    "facing=east,lit=1":{"model": "infinity_nexus_generators:block/refinery_1", "y": 90},
+    "facing=south,lit=1":{"model": "infinity_nexus_generators:block/refinery_1", "y": 180},
+    "facing=west,lit=1":{"model": "infinity_nexus_generators:block/refinery_1", "y": 270},
+    "facing=north,lit=2":{"model": "infinity_nexus_generators:block/refinery_2"},
+    "facing=east,lit=2":{"model": "infinity_nexus_generators:block/refinery_2", "y": 90},
+    "facing=south,lit=2":{"model": "infinity_nexus_generators:block/refinery_2", "y": 180},
+    "facing=west,lit=2":{"model": "infinity_nexus_generators:block/refinery_2", "y": 270},
+    "facing=north,lit=3":{"model": "infinity_nexus_generators:block/refinery_3"},
+    "facing=east,lit=3":{"model": "infinity_nexus_generators:block/refinery_3", "y": 90},
+    "facing=south,lit=3":{"model": "infinity_nexus_generators:block/refinery_3", "y": 180},
+    "facing=west,lit=3":{"model": "infinity_nexus_generators:block/refinery_3", "y": 270},
+    "facing=north,lit=4":{"model": "infinity_nexus_generators:block/refinery_4"},
+    "facing=east,lit=4":{"model": "infinity_nexus_generators:block/refinery_4", "y": 90},
+    "facing=south,lit=4":{"model": "infinity_nexus_generators:block/refinery_4", "y": 180},
+    "facing=west,lit=4":{"model": "infinity_nexus_generators:block/refinery_4", "y": 270},
+    "facing=north,lit=5":{"model": "infinity_nexus_generators:block/refinery_5"},
+    "facing=east,lit=5":{"model": "infinity_nexus_generators:block/refinery_5", "y": 90},
+    "facing=south,lit=5":{"model": "infinity_nexus_generators:block/refinery_5", "y": 180},
+    "facing=west,lit=5":{"model": "infinity_nexus_generators:block/refinery_5", "y": 270},
+    "facing=north,lit=6":{"model": "infinity_nexus_generators:block/refinery_6"},
+    "facing=east,lit=6":{"model": "infinity_nexus_generators:block/refinery_6", "y": 90},
+    "facing=south,lit=6":{"model": "infinity_nexus_generators:block/refinery_6", "y": 180},
+    "facing=west,lit=6":{"model": "infinity_nexus_generators:block/refinery_6", "y": 270},
+    "facing=north,lit=7":{"model": "infinity_nexus_generators:block/refinery_7"},
+    "facing=east,lit=7":{"model": "infinity_nexus_generators:block/refinery_7", "y": 90},
+    "facing=south,lit=7":{"model": "infinity_nexus_generators:block/refinery_7", "y": 180},
+    "facing=west,lit=7":{"model": "infinity_nexus_generators:block/refinery_7", "y": 270},
+
+    "facing=north,lit=8":{"model": "infinity_nexus_generators:block/refinery_8"},
+    "facing=east,lit=8":{"model": "infinity_nexus_generators:block/refinery_8", "y": 90},
+    "facing=south,lit=8":{"model": "infinity_nexus_generators:block/refinery_8", "y": 180},
+    "facing=west,lit=8":{"model": "infinity_nexus_generators:block/refinery_8", "y": 270},
+
+    "facing=north,lit=9":{"model": "infinity_nexus_generators:block/refinery_on"},
+    "facing=east,lit=9":{"model": "infinity_nexus_generators:block/refinery_on", "y": 90},
+    "facing=south,lit=9":{"model": "infinity_nexus_generators:block/refinery_on", "y": 180},
+    "facing=west,lit=9":{"model": "infinity_nexus_generators:block/refinery_on", "y": 270},
+    "facing=north,lit=10":{"model": "infinity_nexus_generators:block/refinery_on_1"},
+    "facing=east,lit=10":{"model": "infinity_nexus_generators:block/refinery_on_1", "y": 90},
+    "facing=south,lit=10":{"model": "infinity_nexus_generators:block/refinery_on_1", "y": 180},
+    "facing=west,lit=10":{"model": "infinity_nexus_generators:block/refinery_on_1", "y": 270},
+    "facing=north,lit=11":{"model": "infinity_nexus_generators:block/refinery_on_2"},
+    "facing=east,lit=11":{"model": "infinity_nexus_generators:block/refinery_on_2", "y": 90},
+    "facing=south,lit=11":{"model": "infinity_nexus_generators:block/refinery_on_2", "y": 180},
+    "facing=west,lit=11":{"model": "infinity_nexus_generators:block/refinery_on_2", "y": 270},
+    "facing=north,lit=12":{"model": "infinity_nexus_generators:block/refinery_on_3"},
+    "facing=east,lit=12":{"model": "infinity_nexus_generators:block/refinery_on_3", "y": 90},
+    "facing=south,lit=12":{"model": "infinity_nexus_generators:block/refinery_on_3", "y": 180},
+    "facing=west,lit=12":{"model": "infinity_nexus_generators:block/refinery_on_3", "y": 270},
+    "facing=north,lit=13":{"model": "infinity_nexus_generators:block/refinery_on_4"},
+    "facing=east,lit=13":{"model": "infinity_nexus_generators:block/refinery_on_4", "y": 90},
+    "facing=south,lit=13":{"model": "infinity_nexus_generators:block/refinery_on_4", "y": 180},
+    "facing=west,lit=13":{"model": "infinity_nexus_generators:block/refinery_on_4", "y": 270},
+    "facing=north,lit=14":{"model": "infinity_nexus_generators:block/refinery_on_5"},
+    "facing=east,lit=14":{"model": "infinity_nexus_generators:block/refinery_on_5", "y": 90},
+    "facing=south,lit=14":{"model": "infinity_nexus_generators:block/refinery_on_5", "y": 180},
+    "facing=west,lit=14":{"model": "infinity_nexus_generators:block/refinery_on_5", "y": 270},
+    "facing=north,lit=15":{"model": "infinity_nexus_generators:block/refinery_on_6"},
+    "facing=east,lit=15":{"model": "infinity_nexus_generators:block/refinery_on_6", "y": 90},
+    "facing=south,lit=15":{"model": "infinity_nexus_generators:block/refinery_on_6", "y": 180},
+    "facing=west,lit=15":{"model": "infinity_nexus_generators:block/refinery_on_6", "y": 270},
+    "facing=north,lit=16":{"model": "infinity_nexus_generators:block/refinery_on_7"},
+    "facing=east,lit=16":{"model": "infinity_nexus_generators:block/refinery_on_7", "y": 90},
+    "facing=south,lit=16":{"model": "infinity_nexus_generators:block/refinery_on_7", "y": 180},
+    "facing=west,lit=16":{"model": "infinity_nexus_generators:block/refinery_on_7", "y": 270},
+
+    "facing=north,lit=17":{"model": "infinity_nexus_generators:block/refinery_on_8"},
+    "facing=east,lit=17":{"model": "infinity_nexus_generators:block/refinery_on_8", "y": 90},
+    "facing=south,lit=17":{"model": "infinity_nexus_generators:block/refinery_on_8", "y": 180},
+    "facing=west,lit=17":{"model": "infinity_nexus_generators:block/refinery_on_8", "y": 270}
   }
 }

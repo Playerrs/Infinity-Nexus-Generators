@@ -35,22 +35,6 @@ public class RefineryBlock extends BaseEntityBlock {
         super(pProperties);
     }
 
-    public static final VoxelShape SHAPE = Stream.of(
-            Block.box(3, 8, 0, 13, 14, 1),
-            Block.box(1, 4, 1, 15, 15, 15),
-            Block.box(5, 2, 5, 11, 4, 11),
-            Block.box(6, 1, 6, 10, 2, 10),
-            Block.box(7, 0, 7, 9, 1, 9),
-            Block.box(1, 15, 0, 15, 16, 1),
-            Block.box(15, 0, 0, 16, 16, 1),
-            Block.box(0, 0, 0, 1, 16, 1),
-            Block.box(15, 0, 15, 16, 16, 16),
-            Block.box(0, 0, 15, 1, 16, 16),
-            Block.box(1, 15, 15, 15, 16, 16),
-            Block.box(0, 15, 1, 1, 16, 15),
-            Block.box(15, 15, 1, 16, 16, 15)
-    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();;
-
 
     public static final DirectionProperty FACING;
 
@@ -63,13 +47,9 @@ public class RefineryBlock extends BaseEntityBlock {
     }
 
     static {
-        FACING = BlockStateProperties.HORIZONTAL_FACING;
+        FACING = BlockStateProperties.FACING;
     }
 
-    @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return SHAPE;
-    }
 
     @Nullable
     @Override

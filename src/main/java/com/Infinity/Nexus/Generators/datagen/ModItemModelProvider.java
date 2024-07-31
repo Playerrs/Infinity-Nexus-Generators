@@ -22,6 +22,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
         simpleItem(ModItems.DRILL);
+        simpleItem(ModItems.CRUDE_OIL_SCANNER);
 
         //complexBlock(ModBlocks.REFINERY.get());
 
