@@ -1,6 +1,8 @@
 package com.Infinity.Nexus.Generators.item.custom;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +35,7 @@ public class CrudeOilScannerItem extends Item {
 
         pPlayer.getCooldowns().addCooldown(this, 20);                                // Adiciona cooldown
         itemStackInHand.hurtAndBreak(1, pPlayer, pPlayer1 -> pPlayer1.broadcastBreakEvent(pUsedHand)); // Tira durabilidade
+
 
         return InteractionResultHolder.sidedSuccess(itemStackInHand, pLevel.isClientSide());
     }
