@@ -27,6 +27,8 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.OIL_BARREL.get());
 
+                        output.accept(ModItems.CRUDE_OIL_BUCKET.get());
+
                     })
                     .build());
 

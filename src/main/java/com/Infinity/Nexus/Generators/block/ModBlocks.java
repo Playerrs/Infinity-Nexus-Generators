@@ -3,11 +3,13 @@ package com.Infinity.Nexus.Generators.block;
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
 import com.Infinity.Nexus.Generators.block.custom.Barrel;
 import com.Infinity.Nexus.Generators.block.custom.Refinery;
+import com.Infinity.Nexus.Generators.fluid.ModFluids;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,6 +27,12 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> OIL_BARREL = registerBlock("oil_barrel",
             () -> new Barrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
+
+
+
+    // Relation to Fluids
+    public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register("crude_oil_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

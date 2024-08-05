@@ -33,7 +33,7 @@ public class CrudeOilScannerItem extends Item {
             pPlayer.sendSystemMessage(Component.literal(purity + " of purity"));
         }
 
-        pPlayer.getCooldowns().addCooldown(this, 20);                                // Adiciona cooldown
+        pPlayer.getCooldowns().addCooldown(this, 20);// Adiciona cooldown //TODO AUMENTAR COOLDOWN para 100
         itemStackInHand.hurtAndBreak(1, pPlayer, pPlayer1 -> pPlayer1.broadcastBreakEvent(pUsedHand)); // Tira durabilidade
 
 
@@ -43,7 +43,7 @@ public class CrudeOilScannerItem extends Item {
 
     private int getChunkPurity(Player pPlayer, Level pLevel, ChunkAccess pChunk) {
         Long chunkPurity = pPlayer.getServer().overworld().getSeed(); //Seed
-        int seed = (int) pPlayer.getServer().overworld().getSeed(); //Valor optimizado de seed // 510337443
+        int seed = (int) pPlayer.getServer().overworld().getSeed(); //Valor otimizado de seed // 510337443
         int[] chunkPos =  {pChunk.getPos().x, pChunk.getPos().z}; //Posicao do chunk
 
         int seedLength = String.valueOf(seed).length();
@@ -52,8 +52,12 @@ public class CrudeOilScannerItem extends Item {
         int lastPosXNumber = Integer.parseInt(String.valueOf(chunkPos[0]).substring(String.valueOf(chunkPos[0]).length() - 1));
         int lastPosZNumber = Integer.parseInt(String.valueOf(chunkPos[1]).substring(String.valueOf(chunkPos[1]).length() - 1));
 
+        //int XPurity = (lastSeedNumber * lastPosXNumber);
+        //int ZPurity = (lastSeedNumber * lastPosZNumber);
+        //pPlayer.sendSystemMessage(Component.literal(lastPosXNumber + " " + lastPosZNumber));
 
-        return Math.abs(lastSeedNumber - lastPosXNumber) + Math.abs(lastSeedNumber - lastPosZNumber);
+
+        return (lastPosZNumber * 5) + (lastPosXNumber * 5);
     }
 
 }

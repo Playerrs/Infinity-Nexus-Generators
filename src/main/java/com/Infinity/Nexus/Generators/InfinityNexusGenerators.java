@@ -4,6 +4,8 @@ import com.Infinity.Nexus.Generators.CreativeTabs.ModCreativeModeTabs;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.config.Config;
+import com.Infinity.Nexus.Generators.fluid.ModFluidTypes;
+import com.Infinity.Nexus.Generators.fluid.ModFluids;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import com.Infinity.Nexus.Generators.networking.ModMessages;
 import com.Infinity.Nexus.Generators.screen.ModMenuTypes;
@@ -57,6 +59,9 @@ public class InfinityNexusGenerators
 
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+
+        ModFluidTypes.register(modEventBus);
+        ModFluids.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
