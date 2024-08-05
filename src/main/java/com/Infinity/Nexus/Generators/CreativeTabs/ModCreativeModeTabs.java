@@ -25,6 +25,8 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.REFINERY.get());
 
+                        output.accept(ModBlocks.OIL_BARREL.get());
+
                     })
                     .build());
 

@@ -1,6 +1,7 @@
 package com.Infinity.Nexus.Generators.block;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
+import com.Infinity.Nexus.Generators.block.custom.Barrel;
 import com.Infinity.Nexus.Generators.block.custom.Refinery;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -21,6 +22,9 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> REFINERY = registerBlock("refinery",
             () -> new Refinery(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).requiresCorrectToolForDrops().noParticlesOnBreak()));
+
+    public static final RegistryObject<Block> OIL_BARREL = registerBlock("oil_barrel",
+            () -> new Barrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

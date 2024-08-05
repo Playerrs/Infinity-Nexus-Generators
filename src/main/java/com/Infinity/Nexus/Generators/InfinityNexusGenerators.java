@@ -5,11 +5,14 @@ import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.config.Config;
 import com.Infinity.Nexus.Generators.item.ModItems;
+import com.Infinity.Nexus.Generators.networking.ModMessages;
 import com.Infinity.Nexus.Generators.screen.ModMenuTypes;
 import com.Infinity.Nexus.Generators.screen.refinery.RefineryScreen;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -44,9 +47,6 @@ public class InfinityNexusGenerators
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
         // Register the Creative Mode Tab for all tabs
         ModCreativeModeTabs.register(modEventBus);
 
@@ -58,24 +58,22 @@ public class InfinityNexusGenerators
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
 
+        // Register the commonSetup method for modloading
+        modEventBus.addListener(this::commonSetup);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC,"InfinityNexus/generators_config.toml");
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-        // Some common setup code
-//        LOGGER.info("HELLO FROM COMMON SETUP");
-//
-//        if (Config.logDirtBlock)
-//            LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-//
-//        LOGGER.info(Config.magicNumberIntroduction + Config.magicNumber);
-//
-//        Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
+        event.enqueueWork(() -> {
+            ModMessages.register();
+        });
 
         LOGGER.info("   §4_____§5_   __§9__________§3_   ______§b_______  __");
         LOGGER.info("  §4/_  _§5/ | / §9/ ____/  _§3/ | / /  _§b/_  __| \\/ /");
@@ -102,6 +100,8 @@ public class InfinityNexusGenerators
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             MenuScreens.register(ModMenuTypes.REFINERY_MENU.get(), RefineryScreen::new);
+
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.OIL_BARREL.get(), RenderType.translucent());
 
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");

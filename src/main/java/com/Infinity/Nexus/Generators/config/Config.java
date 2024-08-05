@@ -21,13 +21,21 @@ public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
+    private static final ForgeConfigSpec.IntValue REFINERY_ENERGY_CAPACITY = BUILDER
+            .comment("Refinery energy capacity")
+            .defineInRange("refinery_energy_capacity", 600000, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue REFINERY_ENERGY_TRANSFER_RATE = BUILDER
+            .comment("Refinery energy transfer rate per tick")
+            .defineInRange("refinery_energy_transfer_rate", 60000, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue REFINERY_FLUID_CAPACITY = BUILDER
+            .comment("Refinery fluid capacity in mb")
+            .defineInRange("refinery_fluid_capacity", 10000, 0, Integer.MAX_VALUE);
+
+    //Daqui pra baixo é só exemplo
     private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
             .comment("Whether to log the dirt block on common setup")
             .define("logDirtBlock", true);
 
-    private static final ForgeConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
 
     public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
             .comment("What you want the introduction message to be for the magic number")
@@ -40,8 +48,11 @@ public class Config
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
+    public static int refinery_energy_capacity;
+    public static int refinery_energy_transfer_rate;
+    public static int refinery_fluid_capacity;
+
     public static boolean logDirtBlock;
-    public static int magicNumber;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
 
@@ -53,8 +64,12 @@ public class Config
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
+
+        refinery_energy_capacity = REFINERY_ENERGY_CAPACITY.get();
+        refinery_energy_transfer_rate = REFINERY_ENERGY_TRANSFER_RATE.get();
+        refinery_fluid_capacity = REFINERY_FLUID_CAPACITY.get();
+
         logDirtBlock = LOG_DIRT_BLOCK.get();
-        magicNumber = MAGIC_NUMBER.get();
         magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 
         // convert the list of strings into a set of items

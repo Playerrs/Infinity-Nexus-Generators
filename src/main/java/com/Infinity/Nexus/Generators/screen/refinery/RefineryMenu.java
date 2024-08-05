@@ -27,7 +27,7 @@ public class RefineryMenu extends AbstractContainerMenu {
 
     public RefineryMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.REFINERY_MENU.get(), pContainerId);
-        checkContainerSize(inv,4);
+        checkContainerSize(inv,TE_INVENTORY_SLOT_COUNT);
         blockEntity = ((RefineryBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
@@ -53,6 +53,10 @@ public class RefineryMenu extends AbstractContainerMenu {
 
     public boolean isCrafting() {
         return data.get(0) > 0;
+    }
+
+    public RefineryBlockEntity getBlockEntity(){
+        return blockEntity;
     }
 
     public int getScaledProgress() {
@@ -115,7 +119,8 @@ public class RefineryMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()), player, ModBlocks.REFINERY.get());
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
+                player, ModBlocks.REFINERY.get());
     }
 
     private void addPlayerInventory(Inventory playerInventory) {
@@ -131,5 +136,4 @@ public class RefineryMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
-
 }
