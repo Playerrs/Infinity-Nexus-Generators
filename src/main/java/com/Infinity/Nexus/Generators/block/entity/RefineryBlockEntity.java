@@ -302,16 +302,13 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         }
 
         ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
-        System.out.println(result.getDisplayName().getString());
-        System.out.println(canInsertAmountIntoOutputSlot(result.getCount()));
-        System.out.println(canInsertItemIntoOutputSlot(result.getItem()));
 
 
-        return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
+        return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem()) && hasRecipeFluidInInputTank(recipe.get().getFluid());
     }
 
      private boolean hasRecipeFluidInInputTank(FluidStack fluid) {
-         return this.FLUID_STORAGE.getFluid() == fluid && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
+         return this.FLUID_STORAGE.getFluid().getFluid() == fluid.getFluid() && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
      }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
@@ -320,7 +317,7 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
 
     private boolean canInsertAmountIntoOutputSlot(int count) {
         return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
-                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+                (this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count) <= this.itemHandler.getSlotLimit(OUTPUT_SLOT);
     }
 
     private boolean isOutputSlotEmptyOrReceivable() {
