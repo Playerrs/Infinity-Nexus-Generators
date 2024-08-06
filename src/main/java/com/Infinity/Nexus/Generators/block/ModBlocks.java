@@ -33,6 +33,17 @@ public class ModBlocks {
     // Relation to Fluids
     public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register("crude_oil_block",
             () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+    public static final RegistryObject<LiquidBlock> GASOLINE_BLOCK = BLOCKS.register("gasoline_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_GASOLINE,  BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+    public static final RegistryObject<LiquidBlock> KEROSENE_BLOCK = BLOCKS.register("kerosene_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_KEROSENE,  BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+    public static final RegistryObject<LiquidBlock> DIESEL_BLOCK = BLOCKS.register("diesel_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_DIESEL,  BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+    public static final RegistryObject<LiquidBlock> LUBRICANT_BLOCK = BLOCKS.register("lubricant_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_LUB_OIL,  BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+    public static final RegistryObject<LiquidBlock> ROCKET_FUEL_BLOCK = BLOCKS.register("rocket_fuel_block",
+            () -> new LiquidBlock(ModFluids.SOURCE_ROCKET_FUEL,  BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
+
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {

@@ -6,9 +6,16 @@
 
   "block.infinity_nexus_generators.refinery": "Refinery",
 
-
-  "item.infinity_nexus_generators.crude_oil_bucket": "Crude Oil Bucket"
-
-
-
+  "item.infinity_nexus_generators.crude_oil_bucket": "Crude Oil Bucket",
+  "item.infinity_nexus_generators.gasoline_bucket": "Gasoline Bucket",
+  "item.infinity_nexus_generators.kerosene_bucket": "Kerosene Bucket",
+  "item.infinity_nexus_generators.diesel_bucket": "Diesel Bucket",
+  "item.infinity_nexus_generators.lubricant_bucket": "Lubricant Oil Bucket",
+  "item.infinity_nexus_generators.rocket_fuel_bucket": "Rocket Fuel Bucket",
+  "fluid_type.infinity_nexus_generators.crude_oil": "Crude Oil",
+  "fluid_type.infinity_nexus_generators.gasoline": "Gasoline",
+  "fluid_type.infinity_nexus_generators.kerosene": "Kerosene",
+  "fluid_type.infinity_nexus_generators.diesel": "Diesel",
+  "fluid_type.infinity_nexus_generators.lubricant": "Lubricant",
+  "fluid_type.infinity_nexus_generators.rocket_fuel": "Rocket Fuel"
 }

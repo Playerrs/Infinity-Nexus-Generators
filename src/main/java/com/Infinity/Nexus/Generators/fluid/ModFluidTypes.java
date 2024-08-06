@@ -18,9 +18,39 @@ public class ModFluidTypes {
     public static final DeferredRegister<FluidType> FLUID_TYPES =
             DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, InfinityNexusGenerators.MOD_ID);
 
-
+    //        > Crude Oil
+    //        > Gasoline
+    //        > kerosene
+    //        > Diesel
+    //        > Lub Oil
+    //        > Rocket Fuel
     public static final RegistryObject<FluidType> CRUDE_OIL = registerFluidType("crude_oil",
             new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, WATER_OVERLAY_RL, 0xA1202020,
+                    new Vector3f(80f / 255f, 80f / 255f, 80f / 255f),
+                    FluidType.Properties.create().viscosity(1000).density(1000)));
+
+    public static final RegistryObject<FluidType> GASOLINE = registerFluidType("gasoline",
+            new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, WATER_OVERLAY_RL, 0x70134712,
+                    new Vector3f(80f / 255f, 80f / 255f, 80f / 255f),
+                    FluidType.Properties.create().viscosity(1000).density(1000)));
+
+    public static final RegistryObject<FluidType> KEROSENE = registerFluidType("kerosene",
+            new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, WATER_OVERLAY_RL, 0x7050a6e1,
+                    new Vector3f(80f / 255f, 80f / 255f, 80f / 255f),
+                    FluidType.Properties.create().viscosity(1000).density(1000)));
+
+    public static final RegistryObject<FluidType> DIESEL = registerFluidType("diesel",
+            new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, WATER_OVERLAY_RL, 0x70602020,
+                    new Vector3f(80f / 255f, 80f / 255f, 80f / 255f),
+                    FluidType.Properties.create().viscosity(1000).density(1000)));
+
+    public static final RegistryObject<FluidType> LUBRICANT = registerFluidType("lubricant",
+            new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, WATER_OVERLAY_RL, 0x70DBCF5C,
+                    new Vector3f(80f / 255f, 80f / 255f, 80f / 255f),
+                    FluidType.Properties.create().viscosity(1000).density(1000)));
+
+    public static final RegistryObject<FluidType> ROCKET_FUEL = registerFluidType("rocket_fuel",
+            new BaseFluidType(WATER_STILL_RL, WATER_FLOWING_RL, WATER_OVERLAY_RL, 0x70FFFAEF,
                     new Vector3f(80f / 255f, 80f / 255f, 80f / 255f),
                     FluidType.Properties.create().viscosity(1000).density(1000)));
 

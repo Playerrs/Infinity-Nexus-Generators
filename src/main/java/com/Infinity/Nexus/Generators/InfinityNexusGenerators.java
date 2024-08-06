@@ -8,6 +8,7 @@ import com.Infinity.Nexus.Generators.fluid.ModFluidTypes;
 import com.Infinity.Nexus.Generators.fluid.ModFluids;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import com.Infinity.Nexus.Generators.networking.ModMessages;
+import com.Infinity.Nexus.Generators.recipe.ModRecipes;
 import com.Infinity.Nexus.Generators.screen.ModMenuTypes;
 import com.Infinity.Nexus.Generators.screen.refinery.RefineryScreen;
 import com.mojang.logging.LogUtils;
@@ -60,8 +61,10 @@ public class InfinityNexusGenerators
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
 
-        ModFluidTypes.register(modEventBus);
+        ModRecipes.register(modEventBus);
+
         ModFluids.register(modEventBus);
+        ModFluidTypes.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

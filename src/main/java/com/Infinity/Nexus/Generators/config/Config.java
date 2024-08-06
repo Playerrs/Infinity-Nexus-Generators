@@ -30,6 +30,9 @@ public class Config
     private static final ForgeConfigSpec.IntValue REFINERY_FLUID_CAPACITY = BUILDER
             .comment("Refinery fluid capacity in mb")
             .defineInRange("refinery_fluid_capacity", 10000, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue REFINERY_MINIMUM_TICK = BUILDER
+            .comment("Refinery minimum tick when running")
+            .defineInRange("refinery_minimum_tick", 1, 0, Integer.MAX_VALUE);
 
     //Daqui pra baixo é só exemplo
     private static final ForgeConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
@@ -51,6 +54,7 @@ public class Config
     public static int refinery_energy_capacity;
     public static int refinery_energy_transfer_rate;
     public static int refinery_fluid_capacity;
+    public static int refinery_minimum_tick;
 
     public static boolean logDirtBlock;
     public static String magicNumberIntroduction;
@@ -68,6 +72,7 @@ public class Config
         refinery_energy_capacity = REFINERY_ENERGY_CAPACITY.get();
         refinery_energy_transfer_rate = REFINERY_ENERGY_TRANSFER_RATE.get();
         refinery_fluid_capacity = REFINERY_FLUID_CAPACITY.get();
+        refinery_minimum_tick = REFINERY_MINIMUM_TICK.get();
 
         logDirtBlock = LOG_DIRT_BLOCK.get();
         magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();

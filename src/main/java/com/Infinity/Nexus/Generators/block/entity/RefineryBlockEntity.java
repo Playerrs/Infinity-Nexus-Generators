@@ -2,11 +2,11 @@ package com.Infinity.Nexus.Generators.block.entity;
 
 import com.Infinity.Nexus.Core.block.entity.common.SetMachineLevel;
 import com.Infinity.Nexus.Core.block.entity.common.SetUpgradeLevel;
-import com.Infinity.Nexus.Core.items.custom.ComponentItem;
 import com.Infinity.Nexus.Core.utils.ModEnergyStorage;
 import com.Infinity.Nexus.Core.utils.ModUtils;
 import com.Infinity.Nexus.Generators.block.custom.Refinery;
 import com.Infinity.Nexus.Generators.config.Config;
+import com.Infinity.Nexus.Generators.recipe.RefineryRecipes;
 import com.Infinity.Nexus.Generators.screen.refinery.RefineryMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +23,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,6 +39,9 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
 
@@ -69,6 +73,11 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
             };
         }
     };
+
+    public static int getComponentSlot() {
+        return COMPONENT_SLOT;
+    }
+
     private FluidTank createFluidStorage() {
         return new FluidTank(FLUID_STORAGE_CAPACITY) {
             @Override
@@ -128,7 +137,6 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
-
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
 
@@ -192,7 +200,6 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public IEnergyStorage getEnergyStorage() {
-        System.out.println(this.ENERGY_STORAGE.getEnergyStored());
         return this.ENERGY_STORAGE;
     }
     public FluidStack getTank(int slot) {
@@ -208,7 +215,7 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         //Sim
         int machineLevel = getMachineLevel()-1 <= 0 ? 0 : getMachineLevel()-1;
         //Verification for machine working
-        if (isRedstonePowered(blockPos, level) || !(itemHandler.getStackInSlot(COMPONENT_SLOT).isEmpty())) {
+        if (isRedstonePowered(blockPos, level) || itemHandler.getStackInSlot(COMPONENT_SLOT).isEmpty() || !hasRecipe()) {
             if(blockState.getValue(Refinery.LIT) != machineLevel){
                 level.setBlock(blockPos, blockState.setValue(Refinery.LIT, machineLevel), 3);
             }
@@ -216,13 +223,14 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         }else if(blockState.getValue(Refinery.LIT) != machineLevel+9){
             level.setBlock(blockPos, blockState.setValue(Refinery.LIT, machineLevel+9), 3);
         }
-        //Machine Logic
-        //increaseCraftingProgress(machineLevel);
+
+        setMaxProgress(machineLevel);
+        increaseCraftingProcess();
         setChanged(level, blockPos, blockState);
-        //if (hasProgressFinished()) {
-        //    craftItem();
-        //    resetProgress();
-        //}
+        if (hasProgressFinished()) {
+            craftItem();
+            resetProgress();
+        }
 
     }
     private int getMachineLevel(){
@@ -231,19 +239,25 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     private boolean isRedstonePowered(BlockPos pPos, Level level) {
         return level.hasNeighborSignal(pPos);
     }
-//    private static void setMaxProgress(int machineLevel) {
-//        int duration = getCurrentRecipe().get().getDuration(); //130
-//        int halfDuration = duration / 2;
-//        int speedReduction = halfDuration / 16;
-//        int speed = ModUtils.getSpeed(itemHandler, UPGRADE_SLOTS); //16
-//
-//        int reducedDuration = speed * speedReduction;
-//        int reducedLevel = machineLevel * (halfDuration / 8);
-//        duration = duration - reducedDuration - reducedLevel;
-//
-//        maxProgress = Math.max(duration, Config.refinery_minimum_tick);
-//    }
+    private void setMaxProgress(int machineLevel) {
+        int duration = getCurrentRecipe().get().getDuration();
+        int halfDuration = duration / 2;
+        int speedReduction = halfDuration / 16;
+        int speed = ModUtils.getSpeed(itemHandler, UPGRADE_SLOTS); //16
 
+        int reducedDuration = speed * speedReduction;
+        int reducedLevel = machineLevel * (halfDuration / 8);
+        duration = duration - reducedDuration - reducedLevel;
+
+        maxProgress = Math.max(duration, Config.refinery_minimum_tick);
+    }
+    private Optional<RefineryRecipes> getCurrentRecipe() {
+        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
+            inventory.setItem(i, itemHandler.getStackInSlot(i));
+        }
+        return this.level.getRecipeManager().getRecipeFor(RefineryRecipes.Type.INSTANCE, inventory, this.level);
+    }
 //
 //        if (isOutputSlotEmptyOrReceivable() && hasRecipe()) {
 //            increaseCraftingProcess();
@@ -258,47 +272,61 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
 //        }
 //    }
 //
-//    private void craftItem() {
-//        this.itemHandler.extractItem(INPUT_SLOT, 1, false);
-//
-//        this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(ModItems.ALEXANDRITE.get(),
-//                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + 1));
-//    }
-//
-//    private void resetProgress() {
-//        this.progress = 0;
-//    }
-//
-//    private boolean hasProgressFinished() {
-//        return this.progress >= this.maxProgress;
-//    }
-//
-//    private void increaseCraftingProcess() {
-//        this.progress++;
-//    }
-//
-//    private boolean hasRecipe() {
-//        return canInsertAmountIntoOutputSlot(1) && canInsertItemIntoOutputSlot(ModItems.ALEXANDRITE.get())
-//                && hasRecipeItemInInputSlot();
-//    }
-//
-//    private boolean hasRecipeItemInInputSlot() {
-//        return this.itemHandler.getStackInSlot(INPUT_SLOT).getItem() == ModItems.RAW_ALEXANDRITE.get();
-//    }
-//
-//    private boolean canInsertItemIntoOutputSlot(Item item) {
-//        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
-//    }
-//
-//    private boolean canInsertAmountIntoOutputSlot(int count) {
-//        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize() >=
-//                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count;
-//    }
-//
-//    private boolean isOutputSlotEmptyOrReceivable() {
-//        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
-//                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() < this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
-//    }
+    private void craftItem() {
+        Optional<RefineryRecipes> recipe = getCurrentRecipe();
+        ItemStack result = recipe.get().getResultItem(null);
+        this.FLUID_STORAGE.drain(recipe.get().getFluid().copy(), IFluidHandler.FluidAction.EXECUTE);
+
+        this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
+                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
+
+    }
+
+    private void resetProgress() {
+        this.progress = 0;
+    }
+
+    private boolean hasProgressFinished() {
+        return this.progress >= this.maxProgress;
+    }
+
+    private void increaseCraftingProcess() {
+        this.progress++;
+    }
+
+    private boolean hasRecipe() {
+        Optional<RefineryRecipes> recipe = getCurrentRecipe();
+
+        if (recipe.isEmpty()) {
+            return false;
+        }
+
+        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
+        System.out.println(result.getDisplayName().getString());
+        System.out.println(canInsertAmountIntoOutputSlot(result.getCount()));
+        System.out.println(canInsertItemIntoOutputSlot(result.getItem()));
+
+
+        return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem());
+    }
+
+     private boolean hasRecipeFluidInInputTank(FluidStack fluid) {
+         return this.FLUID_STORAGE.getFluid() == fluid && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
+     }
+
+    private boolean canInsertItemIntoOutputSlot(Item item) {
+        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
+    }
+
+    private boolean canInsertAmountIntoOutputSlot(int count) {
+        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
+                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+    }
+
+    private boolean isOutputSlotEmptyOrReceivable() {
+        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
+                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
+    }
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {

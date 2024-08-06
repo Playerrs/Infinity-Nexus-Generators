@@ -20,14 +20,20 @@ public class ModCreativeModeTabs {
                     .icon(() -> new ItemStack(ModItems.DRILL.get()))
                     .title(Component.translatable("creativetab.generators_tab"))
                     .displayItems((displayParameters, output) -> {
+                        output.accept(ModBlocks.REFINERY.get());
+
                         output.accept(ModItems.DRILL.get());
                         output.accept(ModItems.CRUDE_OIL_SCANNER.get());
-
-                        output.accept(ModBlocks.REFINERY.get());
 
                         output.accept(ModBlocks.OIL_BARREL.get());
 
                         output.accept(ModItems.CRUDE_OIL_BUCKET.get());
+                        output.accept(ModItems.GASOLINE_BUCKET.get());
+                        output.accept(ModItems.KEROSENE_BUCKET.get());
+                        output.accept(ModItems.DIESEL_BUCKET.get());
+                        output.accept(ModItems.LUBRICANT_BUCKET.get());
+                        output.accept(ModItems.ROCKET_FUEL_BUCKET.get());
+
 
                     })
                     .build());

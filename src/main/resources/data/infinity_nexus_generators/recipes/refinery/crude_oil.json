@@ -1,0 +1,16 @@
+{
+  "type": "infinity_nexus_generators:refinery",
+  "energy": 1200,
+  "duration": 130,
+  "fluidType": "infinity_nexus_generators:crude_oil_fluid",
+  "fluidAmount": 1000,
+  "ingredients": [
+    {
+      "tag": "infinity_nexus_core:up_2"
+    }
+  ],
+  "output": {
+    "item": "infinity_nexus_generators:crude_oil_bucket",
+    "count": 1
+  }
+}

@@ -25,6 +25,16 @@ public class ModItems {
     // Relation to Fluids
     public static final RegistryObject<Item> CRUDE_OIL_BUCKET = ITEMS.register("crude_oil_bucket",
             () -> new BucketItem(ModFluids.SOURCE_CRUDE_OIL, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistryObject<Item> GASOLINE_BUCKET = ITEMS.register("gasoline_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_GASOLINE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistryObject<Item> KEROSENE_BUCKET = ITEMS.register("kerosene_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_KEROSENE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistryObject<Item> DIESEL_BUCKET = ITEMS.register("diesel_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_DIESEL, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistryObject<Item> LUBRICANT_BUCKET = ITEMS.register("lubricant_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_LUB_OIL, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistryObject<Item> ROCKET_FUEL_BUCKET = ITEMS.register("rocket_fuel_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_ROCKET_FUEL, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

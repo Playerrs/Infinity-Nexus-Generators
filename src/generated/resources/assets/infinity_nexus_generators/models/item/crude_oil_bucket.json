@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "infinity_nexus_generators:item/crude_oil_bucket"
-  }
-}
