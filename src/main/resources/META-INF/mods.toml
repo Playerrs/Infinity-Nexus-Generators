@@ -61,7 +61,7 @@ description='''${mod_description}'''
     #é obrigatório?
     mandatory=true
     #mod_version
-    versionRange="0.0.1-1.20.1"
+    versionRange="3.0.0-1.20.1"
     #Se ele vai iniciar antes ou depois de do mod, User AFTER no mod acima que é seu "addon" que usa este core
     ordering="BEFORE"
     #Quem precisa ussar esta biblioteca? BOTH, CLIENT, or SERVER
