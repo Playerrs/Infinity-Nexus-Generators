@@ -258,20 +258,6 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         }
         return this.level.getRecipeManager().getRecipeFor(RefineryRecipes.Type.INSTANCE, inventory, this.level);
     }
-//
-//        if (isOutputSlotEmptyOrReceivable() && hasRecipe()) {
-//            increaseCraftingProcess();
-//            setChanged(level, blockPos, blockState);
-//
-//            if (hasProgressFinished()) {
-//                craftItem();
-//                resetProgress();
-//            }
-//        } else {
-//            resetProgress();
-//        }
-//    }
-//
     private void craftItem() {
         Optional<RefineryRecipes> recipe = getCurrentRecipe();
         ItemStack result = recipe.get().getResultItem(null);
@@ -318,11 +304,6 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     private boolean canInsertAmountIntoOutputSlot(int count) {
         return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
                 (this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count) <= this.itemHandler.getSlotLimit(OUTPUT_SLOT);
-    }
-
-    private boolean isOutputSlotEmptyOrReceivable() {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
-                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() <= this.itemHandler.getStackInSlot(OUTPUT_SLOT).getMaxStackSize();
     }
     @Nullable
     @Override
