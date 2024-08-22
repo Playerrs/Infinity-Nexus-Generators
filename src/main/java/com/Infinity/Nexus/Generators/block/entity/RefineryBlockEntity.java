@@ -202,7 +202,7 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     public IEnergyStorage getEnergyStorage() {
         return this.ENERGY_STORAGE;
     }
-    public FluidStack getTank(int slot) {
+    public FluidStack getTank() {
         return this.FLUID_STORAGE.getFluid();
     }
     public void setEnergyLevel(int energy) {

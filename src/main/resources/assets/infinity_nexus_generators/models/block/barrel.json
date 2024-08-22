@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "infinity_nexus_generators:block/oil_barrel",
-		"particle": "infinity_nexus_generators:block/oil_barrel"
+		"0": "infinity_nexus_generators:block/barrel",
+		"particle": "infinity_nexus_generators:block/barrel"
 	},
 	"elements": [
 		{

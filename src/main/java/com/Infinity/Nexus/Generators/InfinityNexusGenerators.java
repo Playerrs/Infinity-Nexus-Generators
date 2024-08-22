@@ -1,6 +1,6 @@
 package com.Infinity.Nexus.Generators;
 
-import com.Infinity.Nexus.Generators.CreativeTabs.ModCreativeModeTabs;
+import com.Infinity.Nexus.Generators.creativetabs.ModCreativeModeTabs;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.config.Config;
@@ -88,7 +88,7 @@ public class InfinityNexusGenerators
         LOGGER.info("   §4/ /§5/  |/ §9/ /_   / /§3/  |/ // /  §b/ /   \\  / ");
         LOGGER.info(" §4_/ /§5/ /|  §9/ __/ _/ /§3/ /|  // /  §b/ /    / /  ");
         LOGGER.info("§4/___§5/_/ |_§9/_/   /___§3/_/ |_/___/ §b/_/    /_/   ");
-        LOGGER.info("§b             Infinty Nexus Generators");
+        LOGGER.info("§b             Infinity Nexus Generators");
     };
 
 
@@ -109,7 +109,7 @@ public class InfinityNexusGenerators
         {
             MenuScreens.register(ModMenuTypes.REFINERY_MENU.get(), RefineryScreen::new);
 
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.OIL_BARREL.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.INDUSTRIAL_BARREL.get(), RenderType.translucent());
 
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");

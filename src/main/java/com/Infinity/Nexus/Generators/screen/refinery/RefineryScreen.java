@@ -58,7 +58,7 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
 
          renderEnergyAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y);
          renderTooltips(pGuiGraphics,pMouseX,pMouseY, x, y);
-         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(0), 39,6, fluidRenderer);
+         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(), 39,6, fluidRenderer);
 
          InfoArea.draw(pGuiGraphics);
          super.renderLabels(pGuiGraphics, pMouseX, pMouseY);
@@ -101,7 +101,7 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
 
         renderProgressArrow(guiGraphics, x, y);
         energyInfoArea.render(guiGraphics);
-        fluidRenderer.render(guiGraphics, x+40, y+6, menu.blockEntity.getTank(0));
+        fluidRenderer.render(guiGraphics, x+40, y+6, menu.blockEntity.getTank());
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {

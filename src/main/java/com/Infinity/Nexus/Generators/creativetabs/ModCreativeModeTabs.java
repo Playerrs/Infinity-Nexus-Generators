@@ -1,4 +1,4 @@
-package com.Infinity.Nexus.Generators.CreativeTabs;
+package com.Infinity.Nexus.Generators.creativetabs;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
@@ -25,7 +25,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.DRILL.get());
                         output.accept(ModItems.CRUDE_OIL_SCANNER.get());
 
-                        output.accept(ModBlocks.OIL_BARREL.get());
+                        output.accept(ModBlocks.INDUSTRIAL_BARREL.get());
 
                         output.accept(ModItems.CRUDE_OIL_BUCKET.get());
                         output.accept(ModItems.GASOLINE_BUCKET.get());

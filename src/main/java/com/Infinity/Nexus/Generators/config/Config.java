@@ -21,6 +21,13 @@ public class Config
 {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
+    private static final ForgeConfigSpec.IntValue BARREL_CAPACITY = BUILDER
+            .comment("Barrel fluid tank capacity")
+            .defineInRange("barrel_capacity", 32000, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue INDUSTRIAL_BARREL_CAPACITY = BUILDER
+            .comment("Industrial Barrel fluid tank capacity")
+            .defineInRange("industrial_barrel_capacity", 128000, 0, Integer.MAX_VALUE);
+
     private static final ForgeConfigSpec.IntValue REFINERY_ENERGY_CAPACITY = BUILDER
             .comment("Refinery energy capacity")
             .defineInRange("refinery_energy_capacity", 600000, 0, Integer.MAX_VALUE);
@@ -51,6 +58,9 @@ public class Config
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
+    public static int barrel_capacity;
+    public static int industrial_barrel_capacity;
+
     public static int refinery_energy_capacity;
     public static int refinery_energy_transfer_rate;
     public static int refinery_fluid_capacity;
@@ -68,6 +78,9 @@ public class Config
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event)
     {
+
+        barrel_capacity = BARREL_CAPACITY.get();
+        industrial_barrel_capacity = INDUSTRIAL_BARREL_CAPACITY.get();
 
         refinery_energy_capacity = REFINERY_ENERGY_CAPACITY.get();
         refinery_energy_transfer_rate = REFINERY_ENERGY_TRANSFER_RATE.get();
