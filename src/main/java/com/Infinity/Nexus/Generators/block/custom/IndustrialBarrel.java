@@ -93,7 +93,9 @@ public class IndustrialBarrel extends BaseEntityBlock {
         boolean bucket = stack.getItem() instanceof BucketItem;
 
         if (!(pPlayer instanceof ServerPlayer)) {
-            IndustrialBarrelBlockEntity.sendTankLevel((IndustrialBarrelBlockEntity) entity, pPlayer);
+            if (pPlayer.getMainHandItem().isEmpty()) {
+                IndustrialBarrelBlockEntity.sendTankLevel((IndustrialBarrelBlockEntity) entity, pPlayer);
+            }
         } else {
             if (bucket) {
                 IndustrialBarrelBlockEntity.modifyFluid(stack, pPlayer, (IndustrialBarrelBlockEntity) entity);

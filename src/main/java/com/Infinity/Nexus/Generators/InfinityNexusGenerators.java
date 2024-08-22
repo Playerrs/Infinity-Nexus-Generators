@@ -1,6 +1,6 @@
 package com.Infinity.Nexus.Generators;
 
-import com.Infinity.Nexus.Generators.creativetabs.ModCreativeModeTabs;
+import com.Infinity.Nexus.Generators.CreativeTabs.ModCreativeModeTabs;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.config.Config;

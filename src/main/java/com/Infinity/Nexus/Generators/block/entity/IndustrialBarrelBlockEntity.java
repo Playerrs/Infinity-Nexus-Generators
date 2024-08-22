@@ -23,11 +23,15 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -115,33 +119,74 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
         FluidStack tank = blockEntity.getTank();
 
-        if(itemStack.isEmpty() && !tank.isEmpty()) {
+        itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
 
 
-        } else if (itemStack.is(tank.getFluid().getBucket())) {
+            if(iFluidHandlerItem.getContainer().getItem() instanceof BucketItem) {
+                if(blockEntity.FLUID_STORAGE.getSpace() >= iFluidHandlerItem.getFluidInTank(0).getAmount()){
 
-            FluidStack fluidStack = tank.copy();
-            fluidStack.shrink(1);
-            blockEntity.FLUID_STORAGE.setFluid(fluidStack);
+                    FluidStack fluidStack = iFluidHandlerItem.drain(iFluidHandlerItem.getFluidInTank(0).getAmount(), IFluidHandler.FluidAction.SIMULATE);
+                    iFluidHandlerItem.drain(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                    //TODO FAZER COM QUE TIRE DO BALDE O LIQUIDO
 
-            if (!player.isCreative()) {
-                player.getMainHandItem().shrink(1);
-            }
-        } else if (tank.isEmpty()) {
+                    blockEntity.FLUID_STORAGE.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                }
+            } else if(blockEntity.FLUID_STORAGE.getSpace() >= 10 || blockEntity.FLUID_STORAGE.getSpace() >= iFluidHandlerItem.getContainer().getCount()) {
 
-            if (!player.isCreative()) {
-                player.getMainHandItem().shrink(1);
-            }
-            itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
-                int drainAmount = Math.min(blockEntity.FLUID_STORAGE.getSpace(), 1000);
-                FluidStack fluidInBucket = iFluidHandlerItem.getFluidInTank(0);
-
+                int drainAmount = Math.min(blockEntity.FLUID_STORAGE.getSpace(), 10);
                 FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
-                stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+                iFluidHandlerItem.drain(stack, IFluidHandler.FluidAction.EXECUTE);
+                blockEntity.FLUID_STORAGE.fill(new FluidStack(stack.getFluid(), stack.getAmount()), IFluidHandler.FluidAction.EXECUTE);
+            }
 
-                blockEntity.FLUID_STORAGE.fill(new FluidStack(fluidInBucket.getFluid(), drainAmount), IFluidHandler.FluidAction.EXECUTE);
-            });
-        }
+
+//
+//            if (itemStack.isEmpty() && !tank.isEmpty()) {
+//
+//                itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
+//                    if (blockEntity.FLUID_STORAGE.getFluidAmount() >= 1000) {
+//                        int drainAmount = 1000;
+//                        //FluidStack fluidInBucket = iFluidHandlerItem.getFluidInTank(0);
+//
+//                        FluidStack stack = blockEntity.FLUID_STORAGE.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
+//                        stack = blockEntity.FLUID_STORAGE.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+//
+//                        iFluidHandlerItem.fill(new FluidStack(stack.getFluid(), drainAmount), IFluidHandler.FluidAction.EXECUTE);
+//                    }
+//                });
+//
+//            } else if (itemStack.is(tank.getFluid().getBucket())) {
+//
+//                itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
+//                    int drainAmount = Math.min(blockEntity.FLUID_STORAGE.getSpace(), 1000);
+//                    FluidStack fluidInBucket = iFluidHandlerItem.getFluidInTank(0);
+//
+//                    FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
+//                    stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+//
+//                    blockEntity.FLUID_STORAGE.fill(new FluidStack(fluidInBucket.getFluid(), blockEntity.FLUID_STORAGE.getFluidAmount() + drainAmount), IFluidHandler.FluidAction.EXECUTE);
+//                });
+//
+////            FluidStack fluidStack = tank.copy();
+////            fluidStack.shrink(1);
+////            blockEntity.FLUID_STORAGE.setFluid(fluidStack);
+////
+////            if (!player.isCreative()) {
+////                player.getMainHandItem().shrink(1);
+////            }
+//            } else if (tank.isEmpty()) {
+//
+//                itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
+//                    int drainAmount = Math.min(blockEntity.FLUID_STORAGE.getSpace(), 1000);
+//                    FluidStack fluidInBucket = iFluidHandlerItem.getFluidInTank(0);
+//
+//                    FluidStack stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
+//                    stack = iFluidHandlerItem.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+//
+//                    blockEntity.FLUID_STORAGE.fill(new FluidStack(fluidInBucket.getFluid(), drainAmount), IFluidHandler.FluidAction.EXECUTE);
+//                });
+//            }
+        });
 
 
     }
