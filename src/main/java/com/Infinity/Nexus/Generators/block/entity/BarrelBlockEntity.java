@@ -1,5 +1,6 @@
 package com.Infinity.Nexus.Generators.block.entity;
 
+
 import com.Infinity.Nexus.Generators.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,10 +30,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
-public class IndustrialBarrelBlockEntity extends BlockEntity {
+public class BarrelBlockEntity extends BlockEntity {
 
     //Liquids
-    private static int FLUID_STORAGE_CAPACITY = Config.industrial_barrel_capacity;
+    private static int FLUID_STORAGE_CAPACITY = Config.barrel_capacity;
 
     private final FluidTank FLUID_STORAGE = new FluidTank(FLUID_STORAGE_CAPACITY) {
         @Override
@@ -51,9 +52,10 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
     private LazyOptional<IFluidHandler> lazyFluidHandler = LazyOptional.empty();
 
-    public IndustrialBarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.INDUSTRIAL_BARREL_BLOCK_ENTITY.get(), pPos, pBlockState);
+    public BarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(ModBlockEntities.BARREL_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
+
 
     public void drops() {
 
@@ -122,9 +124,7 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
     private void fillBucket(BlockState pBlockState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, ItemStack pEmptyStack, ItemStack pFilledStack) {
         if (!pLevel.isClientSide) {
             Item $$9 = pEmptyStack.getItem();
-            if (!pPlayer.isCreative()) {
-                pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pEmptyStack, pPlayer, pFilledStack));
-            }
+            pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pEmptyStack, pPlayer, pFilledStack));
             pLevel.playSound(null, pPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
             pLevel.gameEvent((Entity)null, GameEvent.FLUID_PICKUP, pPos);
         }
@@ -133,20 +133,18 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
     private void emptyBucket(BlockState pBlockState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, ItemStack pFilledStack) {
         if (!pLevel.isClientSide) {
             Item $$7 = pFilledStack.getItem();
-            if (!pPlayer.isCreative()) {
-                pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pFilledStack, pPlayer, new ItemStack(Items.BUCKET)));
-            }
+            pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pFilledStack, pPlayer, new ItemStack(Items.BUCKET)));
             pLevel.playSound((Player)null, pPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
             pLevel.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pPos);
         }
     }
 
-    public static void sendTankLevel(IndustrialBarrelBlockEntity entity, Player player) {
+    public static void sendTankLevel(BarrelBlockEntity entity, Player player) {
         player.sendSystemMessage(Component.translatable(entity.getTank().getFluid().getTranslationKey()).append(Component.literal(": " + entity.getTank().getFluid().getAmount() + "/" + FLUID_STORAGE_CAPACITY)));
     }
 
     private boolean hasRecipeFluidInInputTank(FluidStack fluid) {
-         return this.FLUID_STORAGE.getFluid().getFluid() == fluid.getFluid() && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
+        return this.FLUID_STORAGE.getFluid().getFluid() == fluid.getFluid() && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
     }
 
     @Nullable

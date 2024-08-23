@@ -110,6 +110,7 @@ public class InfinityNexusGenerators
             MenuScreens.register(ModMenuTypes.REFINERY_MENU.get(), RefineryScreen::new);
 
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.INDUSTRIAL_BARREL.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BARREL.get(), RenderType.cutoutMipped());
 
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");

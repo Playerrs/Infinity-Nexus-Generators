@@ -23,10 +23,10 @@ public class Config
 
     private static final ForgeConfigSpec.IntValue BARREL_CAPACITY = BUILDER
             .comment("Barrel fluid tank capacity")
-            .defineInRange("barrel_capacity", 32000, 0, Integer.MAX_VALUE);
+            .defineInRange("barrel_capacity", 64000, 0, Integer.MAX_VALUE);
     private static final ForgeConfigSpec.IntValue INDUSTRIAL_BARREL_CAPACITY = BUILDER
             .comment("Industrial Barrel fluid tank capacity")
-            .defineInRange("industrial_barrel_capacity", 128000, 0, Integer.MAX_VALUE);
+            .defineInRange("industrial_barrel_capacity", 512000, 0, Integer.MAX_VALUE);
 
     private static final ForgeConfigSpec.IntValue REFINERY_ENERGY_CAPACITY = BUILDER
             .comment("Refinery energy capacity")

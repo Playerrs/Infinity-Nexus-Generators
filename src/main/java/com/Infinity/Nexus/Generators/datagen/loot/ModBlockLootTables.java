@@ -19,6 +19,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     protected void generate() {
         this.dropSelf(ModBlocks.REFINERY.get());
         this.dropSelf(ModBlocks.INDUSTRIAL_BARREL.get());
+        this.dropSelf(ModBlocks.BARREL.get());
 
     }
 

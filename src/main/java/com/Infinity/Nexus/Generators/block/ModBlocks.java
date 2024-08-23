@@ -1,6 +1,7 @@
 package com.Infinity.Nexus.Generators.block;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
+import com.Infinity.Nexus.Generators.block.custom.Barrel;
 import com.Infinity.Nexus.Generators.block.custom.IndustrialBarrel;
 import com.Infinity.Nexus.Generators.block.custom.Refinery;
 import com.Infinity.Nexus.Generators.fluid.ModFluids;
@@ -26,7 +27,10 @@ public class ModBlocks {
             () -> new Refinery(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).requiresCorrectToolForDrops().noParticlesOnBreak()));
 
     public static final RegistryObject<Block> INDUSTRIAL_BARREL = registerBlock("industrial_barrel",
-            () -> new IndustrialBarrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).requiresCorrectToolForDrops()));
+            () -> new IndustrialBarrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F)));
+
+    public static final RegistryObject<Block> BARREL = registerBlock("barrel",
+            () -> new Barrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F)));
 
 
 
