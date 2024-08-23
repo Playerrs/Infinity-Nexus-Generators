@@ -24,7 +24,9 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModItems.DRILL.get());
                         output.accept(ModItems.CRUDE_OIL_SCANNER.get());
+                        output.accept(ModItems.BITUMEN.get());
 
+                        output.accept(ModBlocks.BARREL.get());
                         output.accept(ModBlocks.INDUSTRIAL_BARREL.get());
 
                         output.accept(ModItems.CRUDE_OIL_BUCKET.get());

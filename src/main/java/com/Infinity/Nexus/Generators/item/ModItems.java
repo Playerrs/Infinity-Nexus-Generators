@@ -19,6 +19,9 @@ public class ModItems {
     public static final RegistryObject<Item> DRILL = ITEMS.register("drill",
             () -> new Item(new Item.Properties().durability(512)));
 
+    public static final RegistryObject<Item> BITUMEN = ITEMS.register("bitumen",
+            () -> new Item(new Item.Properties().stacksTo(64)));
+
     public static final RegistryObject<Item> CRUDE_OIL_SCANNER = ITEMS.register("crude_oil_scanner",
             () -> new CrudeOilScannerItem(new Item.Properties().durability(256)));
 
