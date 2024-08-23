@@ -23,6 +23,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.DRILL);
         simpleItem(ModItems.CRUDE_OIL_SCANNER);
+        simpleItem(ModItems.BITUMEN);
 
         //complexBlock(ModBlocks.REFINERY.get());
 

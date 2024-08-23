@@ -23,18 +23,18 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, InfinityNexusGenerators.MOD_ID);
 
 
+    // Blocks
     public static final RegistryObject<Block> REFINERY = registerBlock("refinery",
             () -> new Refinery(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).requiresCorrectToolForDrops().noParticlesOnBreak()));
 
     public static final RegistryObject<Block> INDUSTRIAL_BARREL = registerBlock("industrial_barrel",
-            () -> new IndustrialBarrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F)));
+            () -> new IndustrialBarrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.8F)));
 
     public static final RegistryObject<Block> BARREL = registerBlock("barrel",
-            () -> new Barrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F)));
+            () -> new Barrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(0.8F)));
 
 
-
-    // Relation to Fluids
+    // Fluids
     public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register("crude_oil_block",
             () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.WATER).noLootTable()));
     public static final RegistryObject<LiquidBlock> GASOLINE_BLOCK = BLOCKS.register("gasoline_block",
