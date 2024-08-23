@@ -10,6 +10,7 @@ import com.Infinity.Nexus.Generators.recipe.RefineryRecipes;
 import com.Infinity.Nexus.Generators.screen.refinery.RefineryMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -18,21 +19,22 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
@@ -48,6 +50,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class IndustrialBarrelBlockEntity extends BlockEntity {
 
@@ -122,31 +125,58 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
     }
 
-    public void modifyFluid(ItemStack itemStack, Player player) {
+    public void modifyFluid(ItemStack itemStack, Player player, InteractionHand hand) {
         itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
             FluidStack tank = FLUID_STORAGE.getFluid();
             int amount = Math.min(iFluidHandlerItem.getFluidInTank(0).getAmount(), 1000);
             FluidStack fluidStack = iFluidHandlerItem.drain(iFluidHandlerItem.getFluidInTank(0).getAmount(), IFluidHandler.FluidAction.SIMULATE);
             if(tank.isEmpty() || (fluidStack.getFluid().isSame(tank.getFluid())) && tank.getAmount()+amount < FLUID_STORAGE.getCapacity()) {
                 player.sendSystemMessage(Component.literal("Filling tank..."));
+                emptyBucket(this.getBlockState(), this.getLevel(), this.getBlockPos(), player, hand, tank.getFluid().getBucket().getDefaultInstance());
                 FLUID_STORAGE.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                iFluidHandlerItem.drain(amount, IFluidHandler.FluidAction.EXECUTE);
-                removeAddPlayerItem(player, itemStack, Items.BUCKET.getDefaultInstance());
-                level.playSound(null, this.getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 0.3f, 1.0f);
+                //iFluidHandlerItem.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                //level.playSound(null, this.getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 0.3f, 1.0f);
             //Tem fluido no tanque e o item na mão do player esta vazio
-            }else if(FLUID_STORAGE.getFluid().getAmount() >= 1000 && fluidStack.isEmpty()){
+            }else if(FLUID_STORAGE.getFluid().getAmount() >= 1000 && iFluidHandlerItem.getFluidInTank(0).isEmpty()){
                 player.sendSystemMessage(Component.literal("Filling bucket..."));
-                removeAddPlayerItem(player, Items.BUCKET.getDefaultInstance(), FLUID_STORAGE.getFluid().getFluid().getBucket().getDefaultInstance());
+//                CauldronInteraction.fillBucket(this.getBlockState(), this.level, this.getBlockPos(), player, player.getUsedItemHand(),
+//                        itemStack, fluidStack.getFluid().getBucket().getDefaultInstance(), (Predicate<BlockState>) this.getBlockState(), SoundEvents.BUCKET_FILL);;
+                fillBucket(this.getBlockState(), this.getLevel(), this.getBlockPos(), player, hand, itemStack, tank.getFluid().getBucket().getDefaultInstance());
                 FLUID_STORAGE.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-                level.playSound(null, this.getBlockPos(), SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 0.3f, 1.0f);
+                //level.playSound(null, this.getBlockPos(), SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 0.3f, 1.0f);
             }
             //TODO PEGA O CONTROLINHO DO @THE ONE PROBE e APERTA SHIFT PARA VER O LIQUIDO DENTRO DO BLOCO
         });
     }
-    private void removeAddPlayerItem(Player player, ItemStack remove, ItemStack add) {
-        player.getInventory().removeItem(player.getInventory().findSlotMatchingItem(remove),1);
-        player.getInventory().add(add);
-        player.getInventory().setChanged();
+//    private void removeAddPlayerItem(Player player, ItemStack remove, ItemStack add) {
+//        player.getInventory().removeItem(player.getInventory().findSlotMatchingItem(remove),1);
+//        player.getInventory().add(add);
+//        player.getInventory().setChanged();
+//    }
+
+    private void fillBucket(BlockState pBlockState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, ItemStack pEmptyStack, ItemStack pFilledStack) {
+        if (!pLevel.isClientSide) {
+            Item $$9 = pEmptyStack.getItem();
+            pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pEmptyStack, pPlayer, pFilledStack));
+            //pLevel.blockUpdated(pPos, pBlockState.getBlock());// setBlockAndUpdate(pPos, Blocks.CAULDRON.defaultBlockState());
+            //pLevel.setBlockAndUpdate(pPos, pBlockState);
+            //pPlayer.awardStat(Stats.USE_CAULDRON);
+            //pPlayer.awardStat(Stats.ITEM_USED.get($$9));
+            pLevel.playSound(null, pPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+            pLevel.gameEvent((Entity)null, GameEvent.FLUID_PICKUP, pPos);
+        }
+    }
+
+    private void emptyBucket(BlockState pBlockState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, ItemStack pFilledStack) {
+        if (!pLevel.isClientSide) {
+            Item $$7 = pFilledStack.getItem();
+            pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pFilledStack, pPlayer, new ItemStack(Items.BUCKET)));
+            //pPlayer.awardStat(Stats.FILL_CAULDRON);
+            //pPlayer.awardStat(Stats.ITEM_USED.get($$7));
+            pLevel.setBlockAndUpdate(pPos, pBlockState);
+            pLevel.playSound((Player)null, pPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+            pLevel.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pPos);
+        }
     }
     /*
         public static void modifyFluid(ItemStack itemStack, Player player, IndustrialBarrelBlockEntity blockEntity) {

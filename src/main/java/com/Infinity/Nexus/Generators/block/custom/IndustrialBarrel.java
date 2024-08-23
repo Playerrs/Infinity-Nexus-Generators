@@ -16,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,12 +28,17 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class IndustrialBarrel extends BaseEntityBlock {
     public static IntegerProperty LIT = IntegerProperty.create("lit", 0, 17);
@@ -60,6 +66,15 @@ public class IndustrialBarrel extends BaseEntityBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(FACING, LIT);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return Stream.of(
+                //Block.box(5D, 0D, 1.5D, 16D, 16.0D, 14.5D),
+                //Block.box(14.5D, 0D, 14.5D, 14.5D, 14.5D, 14.5D)
+                Block.box(1.5, 0, 1.5, 14.5, 16, 14.5)
+        ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 
 
@@ -99,7 +114,7 @@ public class IndustrialBarrel extends BaseEntityBlock {
             }
         } else {
             if (bucket) {
-                be.modifyFluid(stack, pPlayer);
+                be.modifyFluid(stack, pPlayer, pHand);
             }
 
         }
