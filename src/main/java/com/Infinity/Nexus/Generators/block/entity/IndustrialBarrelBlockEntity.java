@@ -16,6 +16,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -26,6 +28,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -50,17 +53,21 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
     //Liquids
     private static final int FLUID_STORAGE_CAPACITY = Config.industrial_barrel_capacity;
-    private final FluidTank FLUID_STORAGE = createFluidStorage();
 
-    private FluidTank createFluidStorage() {
-        return new FluidTank(FLUID_STORAGE_CAPACITY) {
-            @Override
-            protected void onContentsChanged() {
-                setChanged();
+    private final FluidTank FLUID_STORAGE = new FluidTank(FLUID_STORAGE_CAPACITY) {
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+            if (!getLevel().isClientSide) {
                 getLevel().sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }
-        };
-    }
+        }
+
+        @Override
+        public boolean isFluidValid(FluidStack stack) {
+            return super.isFluidValid(stack);
+        }
+    };
 
     private LazyOptional<IFluidHandler> lazyFluidHandler = LazyOptional.empty();
 
@@ -104,8 +111,8 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
         FLUID_STORAGE.readFromNBT(pTag);
     }
 
-    public FluidStack getTank() {
-        return this.FLUID_STORAGE.getFluid();
+    public FluidTank getTank() {
+        return this.FLUID_STORAGE;
     }
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
         if (level.isClientSide) {
@@ -115,14 +122,44 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
     }
 
-    public static void modifyFluid(ItemStack itemStack, Player player, IndustrialBarrelBlockEntity blockEntity) {
+    public void modifyFluid(ItemStack itemStack, Player player) {
+        itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
+            FluidStack tank = FLUID_STORAGE.getFluid();
+            int amount = Math.min(iFluidHandlerItem.getFluidInTank(0).getAmount(), 1000);
+            FluidStack fluidStack = iFluidHandlerItem.drain(iFluidHandlerItem.getFluidInTank(0).getAmount(), IFluidHandler.FluidAction.SIMULATE);
+            if(tank.isEmpty() || (fluidStack.getFluid().isSame(tank.getFluid())) && tank.getAmount()+amount < FLUID_STORAGE.getCapacity()) {
+                player.sendSystemMessage(Component.literal("Filling tank..."));
+                FLUID_STORAGE.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                iFluidHandlerItem.drain(amount, IFluidHandler.FluidAction.EXECUTE);
+                removeAddPlayerItem(player, itemStack, Items.BUCKET.getDefaultInstance());
+                level.playSound(null, this.getBlockPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 0.3f, 1.0f);
+            //Tem fluido no tanque e o item na mão do player esta vazio
+            }else if(FLUID_STORAGE.getFluid().getAmount() >= 1000 && fluidStack.isEmpty()){
+                player.sendSystemMessage(Component.literal("Filling bucket..."));
+                removeAddPlayerItem(player, Items.BUCKET.getDefaultInstance(), FLUID_STORAGE.getFluid().getFluid().getBucket().getDefaultInstance());
+                FLUID_STORAGE.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+                level.playSound(null, this.getBlockPos(), SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 0.3f, 1.0f);
+            }
+            //TODO PEGA O CONTROLINHO DO @THE ONE PROBE e APERTA SHIFT PARA VER O LIQUIDO DENTRO DO BLOCO
+        });
+    }
+    private void removeAddPlayerItem(Player player, ItemStack remove, ItemStack add) {
+        player.getInventory().removeItem(player.getInventory().findSlotMatchingItem(remove),1);
+        player.getInventory().add(add);
+        player.getInventory().setChanged();
+    }
+    /*
+        public static void modifyFluid(ItemStack itemStack, Player player, IndustrialBarrelBlockEntity blockEntity) {
 
         FluidStack tank = blockEntity.getTank();
+        Item fluidItem = player.getItemInHand(player.getUsedItemHand()).getItem();
 
         itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
-
+            iFluidHandlerItem.drain(1000, IFluidHandler.FluidAction.EXECUTE);
 
             if(iFluidHandlerItem.getContainer().getItem() instanceof BucketItem) {
+                System.out.println("#");
+
                 if(blockEntity.FLUID_STORAGE.getSpace() >= iFluidHandlerItem.getFluidInTank(0).getAmount()){
 
                     FluidStack fluidStack = iFluidHandlerItem.drain(iFluidHandlerItem.getFluidInTank(0).getAmount(), IFluidHandler.FluidAction.SIMULATE);
@@ -190,9 +227,9 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
 
     }
-
+*/
     public static void sendTankLevel(IndustrialBarrelBlockEntity entity, Player player) {
-        player.sendSystemMessage(Component.translatable(entity.getTank().getTranslationKey()).append(Component.literal(": " + entity.getTank().getAmount() + "/" + FLUID_STORAGE_CAPACITY)));
+        player.sendSystemMessage(Component.translatable(entity.getTank().getFluid().getTranslationKey()).append(Component.literal(": " + entity.getTank().getFluid().getAmount() + "/" + FLUID_STORAGE_CAPACITY)));
     }
 
     private boolean hasRecipeFluidInInputTank(FluidStack fluid) {

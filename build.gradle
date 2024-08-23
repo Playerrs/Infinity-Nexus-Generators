@@ -152,6 +152,7 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
 
     runtimeOnly(fg.deobf("curse.maven:mekanism-268560:4807067"))
+    runtimeOnly(fg.deobf("curse.maven:the-one-probe-245211:5159287"))
 
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
@@ -167,7 +168,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    implementation fg.deobf('com.nexus:infinity_nexus_core:3.0.0-1.20.1')
+    implementation fg.deobf('com.nexus:infinity_nexus_core:3.0.4-1.20.1')
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -82,11 +83,11 @@ public class IndustrialBarrel extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public @NotNull InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         BlockEntity entity = pLevel.getBlockEntity(pPos);
-        ItemStack stack = pPlayer.getMainHandItem().copy();
+        ItemStack stack = pPlayer.getMainHandItem();
 
-        if (!(entity instanceof IndustrialBarrelBlockEntity)) {
+        if (!(entity instanceof IndustrialBarrelBlockEntity be)) {
             return InteractionResult.PASS;
         }
 
@@ -94,11 +95,11 @@ public class IndustrialBarrel extends BaseEntityBlock {
 
         if (!(pPlayer instanceof ServerPlayer)) {
             if (pPlayer.getMainHandItem().isEmpty()) {
-                IndustrialBarrelBlockEntity.sendTankLevel((IndustrialBarrelBlockEntity) entity, pPlayer);
+                be.sendTankLevel((IndustrialBarrelBlockEntity) entity, pPlayer);
             }
         } else {
             if (bucket) {
-                IndustrialBarrelBlockEntity.modifyFluid(stack, pPlayer, (IndustrialBarrelBlockEntity) entity);
+                be.modifyFluid(stack, pPlayer);
             }
 
         }
