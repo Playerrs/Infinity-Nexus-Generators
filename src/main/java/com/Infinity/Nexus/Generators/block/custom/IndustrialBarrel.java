@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +27,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,8 +37,9 @@ import java.util.stream.Stream;
 public class IndustrialBarrel extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-
-    public IndustrialBarrel(Properties pProperties) {super(pProperties);}
+    public IndustrialBarrel(Properties pProperties) {
+        super(pProperties);
+    }
 
     @Override
     public BlockState rotate(BlockState pState, Rotation pRotation) {
@@ -111,6 +114,16 @@ public class IndustrialBarrel extends BaseEntityBlock {
         }
 
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
+    }
+
+    @Override
+    public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        FluidStack stack = FluidStack.loadFluidStackFromNBT(pStack.getTagElement("Fluid"));
+        IndustrialBarrelBlockEntity entity =  (IndustrialBarrelBlockEntity)pLevel.getBlockEntity(pPos);
+        if(entity != null && !pLevel.isClientSide()) {
+            entity.fillFluidFromNBT(stack);
+        }
+        super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
     }
 
     @Nullable

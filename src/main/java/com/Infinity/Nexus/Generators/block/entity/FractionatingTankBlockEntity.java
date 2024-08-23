@@ -30,10 +30,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
-public class IndustrialBarrelBlockEntity extends BlockEntity {
+public class FractionatingTankBlockEntity extends BlockEntity {
 
     //Liquids
-    private static int FLUID_STORAGE_CAPACITY = Config.industrial_barrel_capacity;
+    private static final int FLUID_STORAGE_CAPACITY = 10000;
 
     private final FluidTank FLUID_STORAGE = new FluidTank(FLUID_STORAGE_CAPACITY) {
         @Override
@@ -52,8 +52,8 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
 
     private LazyOptional<IFluidHandler> lazyFluidHandler = LazyOptional.empty();
 
-    public IndustrialBarrelBlockEntity(BlockPos pPos, BlockState pBlockState) {
-        super(ModBlockEntities.INDUSTRIAL_BARREL_BLOCK_ENTITY.get(), pPos, pBlockState);
+    public FractionatingTankBlockEntity(BlockPos pPos, BlockState pBlockState) {
+        super(ModBlockEntities.FRACTIONATING_TANK_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
 
     //TODO TESTA AI PLAYER
@@ -104,64 +104,11 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
     public FluidTank getTank() {
         return this.FLUID_STORAGE;
     }
-    public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-        if (level.isClientSide) {
-            return;
-        }
-
-
-    }
-
-    public void modifyFluid(ItemStack itemStack, Player player, InteractionHand hand) {
-        itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(iFluidHandlerItem -> {
-            FluidStack tank = FLUID_STORAGE.getFluid();
-            int amount = Math.min(iFluidHandlerItem.getFluidInTank(0).getAmount(), 1000);
-            FluidStack fluidStack = iFluidHandlerItem.drain(iFluidHandlerItem.getFluidInTank(0).getAmount(), IFluidHandler.FluidAction.SIMULATE);
-            if(tank.isEmpty() || (fluidStack.getFluid().isSame(tank.getFluid())) && tank.getAmount()+amount < FLUID_STORAGE.getCapacity()) {
-                player.sendSystemMessage(Component.literal("Filling tank..."));
-                emptyBucket(this.getBlockState(), this.getLevel(), this.getBlockPos(), player, hand, tank.getFluid().getBucket().getDefaultInstance());
-                FLUID_STORAGE.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-            }else if(FLUID_STORAGE.getFluid().getAmount() >= 1000 && iFluidHandlerItem.getFluidInTank(0).isEmpty()){
-                player.sendSystemMessage(Component.literal("Filling bucket..."));
-                fillBucket(this.getBlockState(), this.getLevel(), this.getBlockPos(), player, hand, itemStack, tank.getFluid().getBucket().getDefaultInstance());
-                FLUID_STORAGE.drain(1000, IFluidHandler.FluidAction.EXECUTE);
-            }
-        });
-    }
-
-    private void fillBucket(BlockState pBlockState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, ItemStack pEmptyStack, ItemStack pFilledStack) {
-        if (!pLevel.isClientSide) {
-            Item $$9 = pEmptyStack.getItem();
-            if (!pPlayer.isCreative()) {
-                pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pEmptyStack, pPlayer, pFilledStack));
-            }
-            pLevel.playSound(null, pPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-            pLevel.gameEvent((Entity)null, GameEvent.FLUID_PICKUP, pPos);
-        }
-    }
-
-    private void emptyBucket(BlockState pBlockState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, ItemStack pFilledStack) {
-        if (!pLevel.isClientSide) {
-            Item $$7 = pFilledStack.getItem();
-            if (!pPlayer.isCreative()) {
-                pPlayer.setItemInHand(pHand, ItemUtils.createFilledResult(pFilledStack, pPlayer, new ItemStack(Items.BUCKET)));
-            }
-            pLevel.playSound((Player)null, pPos, SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
-            pLevel.gameEvent((Entity)null, GameEvent.FLUID_PLACE, pPos);
-        }
-    }
-
-    public static void sendTankLevel(IndustrialBarrelBlockEntity entity, Player player) {
-        player.sendSystemMessage(Component.translatable(entity.getTank().getFluid().getTranslationKey()).append(Component.literal(": " + entity.getTank().getFluid().getAmount() + "/" + FLUID_STORAGE_CAPACITY)));
-    }
 
     public void fillFluidFromNBT(FluidStack stack) {
         if(!stack.isEmpty()) {
             FLUID_STORAGE.fill(stack, IFluidHandler.FluidAction.EXECUTE);
         }
-    }
-    private boolean hasRecipeFluidInInputTank(FluidStack fluid) {
-         return this.FLUID_STORAGE.getFluid().getFluid() == fluid.getFluid() && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
     }
 
     @Nullable

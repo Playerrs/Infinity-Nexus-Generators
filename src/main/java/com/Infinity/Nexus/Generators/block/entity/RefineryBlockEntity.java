@@ -202,9 +202,26 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     public IEnergyStorage getEnergyStorage() {
         return this.ENERGY_STORAGE;
     }
-    public FluidStack getTank() {
-        return this.FLUID_STORAGE.getFluid();
+    public FluidStack getTank(int tank) {
+        return switch (tank) {
+            case 1 -> getAboveTank(1);
+            case 2 -> getAboveTank(2);
+            case 3 -> getAboveTank(3);
+            case 4 -> getAboveTank(4);
+            default -> FLUID_STORAGE.getFluid();
+        };
     }
+
+    private FluidStack getAboveTank(int i) {
+        BlockPos blockPos = this.getBlockPos().above(i);
+        BlockEntity blockEntity = this.level.getBlockEntity(blockPos);
+        if (blockEntity instanceof FractionatingTankBlockEntity fractionatingTankBlockEntity) {
+            return fractionatingTankBlockEntity.getTank().getFluid();
+        }else{
+            return FluidStack.EMPTY;
+        }
+    }
+
     public void setEnergyLevel(int energy) {
         this.ENERGY_STORAGE.setEnergy(energy);
     }

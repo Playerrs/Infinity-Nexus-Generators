@@ -18,11 +18,15 @@ public class ModBlockEntities {
 
     public static final RegistryObject<BlockEntityType<IndustrialBarrelBlockEntity>> INDUSTRIAL_BARREL_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("industrial_barrel_block_entity", () ->
-                    BlockEntityType.Builder.of(IndustrialBarrelBlockEntity::new, ModBlocks.INDUSTRIAL_BARREL.get()).build(null));
+                    BlockEntityType.Builder.of((pPos, pBlockState) -> new IndustrialBarrelBlockEntity(pPos, pBlockState), ModBlocks.INDUSTRIAL_BARREL.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<BarrelBlockEntity>> BARREL_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("barrel_block_entity", () ->
                     BlockEntityType.Builder.of(BarrelBlockEntity::new, ModBlocks.BARREL.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<FractionatingTankBlockEntity>> FRACTIONATING_TANK_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("fractionating_tank_block_entity", () ->
+                    BlockEntityType.Builder.of(FractionatingTankBlockEntity::new, ModBlocks.FRACTIONATING_TANK.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

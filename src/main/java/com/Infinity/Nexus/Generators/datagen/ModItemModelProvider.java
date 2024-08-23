@@ -23,6 +23,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.DRILL);
         simpleItem(ModItems.CRUDE_OIL_SCANNER);
+        simpleItem(ModItems.CRUDE_OIL_BUCKET);
+        simpleItem(ModItems.GASOLINE_BUCKET);
+        simpleItem(ModItems.KEROSENE_BUCKET);
+        simpleItem(ModItems.DIESEL_BUCKET);
+        simpleItem(ModItems.LUBRICANT_BUCKET);
+        simpleItem(ModItems.ROCKET_FUEL_BUCKET);
 
         //complexBlock(ModBlocks.REFINERY.get());
 

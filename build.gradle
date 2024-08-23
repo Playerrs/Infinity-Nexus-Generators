@@ -153,6 +153,7 @@ dependencies {
 
     runtimeOnly(fg.deobf("curse.maven:mekanism-268560:4807067"))
     runtimeOnly(fg.deobf("curse.maven:the-one-probe-245211:5159287"))
+    //runtimeOnly(fg.deobf("curse.maven:jade-324717:5339264"))
 
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}")

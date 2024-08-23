@@ -26,6 +26,10 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
             new ResourceLocation(InfinityNexusGenerators.MOD_ID, "textures/gui/refinery_gui.png");
     private EnergyInfoArea energyInfoArea;
     private FluidTankRenderer fluidRenderer;
+    private FluidTankRenderer fluidRenderer1;
+    private FluidTankRenderer fluidRenderer2;
+    private FluidTankRenderer fluidRenderer3;
+    private FluidTankRenderer fluidRenderer4;
 
     public RefineryScreen(RefineryMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
@@ -41,6 +45,10 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
     }
     private void assignFluidTank() {
         fluidRenderer = new FluidTankRenderer(Config.refinery_fluid_capacity, true, 6, 62);
+        fluidRenderer1 = new FluidTankRenderer(10000, true, 6, 47);
+        fluidRenderer2 = new FluidTankRenderer(10000, true, 6, 52);
+        fluidRenderer3 = new FluidTankRenderer(10000, true, 6, 57);
+        fluidRenderer4 = new FluidTankRenderer(10000, true, 6, 62);
     }
 
     private void assignEnergyInfoArea() {
@@ -58,7 +66,11 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
 
          renderEnergyAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y);
          renderTooltips(pGuiGraphics,pMouseX,pMouseY, x, y);
-         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(), 39,6, fluidRenderer);
+         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(0), 39,6, fluidRenderer);
+         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(1), 76,21, fluidRenderer1);
+         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(2), 88,16, fluidRenderer2);
+         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(3), 100,11, fluidRenderer3);
+         renderFluidAreaTooltips(pGuiGraphics,pMouseX,pMouseY, x, y, menu.blockEntity.getTank(4), 113,6, fluidRenderer4);
 
          InfoArea.draw(pGuiGraphics);
          super.renderLabels(pGuiGraphics, pMouseX, pMouseY);
@@ -78,8 +90,27 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
     }
     private void renderTooltips(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, int x, int y) {
         if (Screen.hasShiftDown()) {
-            if(isMouseAboveArea(pMouseX, pMouseY, x, y, 133, 51, 17, 17)) {
+            if (isMouseAboveArea(pMouseX, pMouseY, x, y, -12, 10, 17, 53)) {
+                RenderScreenTooltips.renderUpgradeSlotTooltipAndItems(this.font, pGuiGraphics, pMouseX, pMouseY, x, y);
+            }else if (isMouseAboveArea(pMouseX, pMouseY, x, y, 7, 28, 17, 17)) {
+                RenderScreenTooltips.renderComponentSlotTooltipAndItems(this.font, pGuiGraphics, pMouseX, pMouseY, x, y);
+            }else if(isMouseAboveArea(pMouseX, pMouseY, x, y, 133, 51, 17, 17)) {
                 List<Component> components = List.of(Component.literal("Output Slot"));
+                RenderScreenTooltips.renderTooltipArea(this.font, pGuiGraphics ,components, pMouseX, pMouseY, x, y);
+            }else if(isMouseAboveArea(pMouseX, pMouseY, x, y, 39, 6, 6, 62)) {
+                List<Component> components = List.of(Component.literal("Input Fluid"));
+                RenderScreenTooltips.renderTooltipArea(this.font, pGuiGraphics ,components, pMouseX, pMouseY, x, y);
+            }else if(isMouseAboveArea(pMouseX, pMouseY, x, y, 76, 21, 6, 47)) {
+                List<Component> components = List.of(Component.literal("First Output Fluid"));
+                RenderScreenTooltips.renderTooltipArea(this.font, pGuiGraphics ,components, pMouseX, pMouseY, x, y);
+            }else if(isMouseAboveArea(pMouseX, pMouseY, x, y, 88, 16, 6, 52)) {
+                List<Component> components = List.of(Component.literal("Second Output Fluid"));
+                RenderScreenTooltips.renderTooltipArea(this.font, pGuiGraphics ,components, pMouseX, pMouseY, x, y);
+            }else if(isMouseAboveArea(pMouseX, pMouseY, x, y, 100, 11, 6, 57)) {
+                List<Component> components = List.of(Component.literal("Tried Output Fluid"));
+                RenderScreenTooltips.renderTooltipArea(this.font, pGuiGraphics ,components, pMouseX, pMouseY, x, y);
+            }else if(isMouseAboveArea(pMouseX, pMouseY, x, y, 112, 6, 6, 62)) {
+                List<Component> components = List.of(Component.literal("Fourth Output Fluid"));
                 RenderScreenTooltips.renderTooltipArea(this.font, pGuiGraphics ,components, pMouseX, pMouseY, x, y);
             }
         }
@@ -101,12 +132,18 @@ public class RefineryScreen extends AbstractContainerScreen<RefineryMenu> {
 
         renderProgressArrow(guiGraphics, x, y);
         energyInfoArea.render(guiGraphics);
-        fluidRenderer.render(guiGraphics, x+40, y+6, menu.blockEntity.getTank());
+        fluidRenderer.render(guiGraphics, x+40, y+6, menu.blockEntity.getTank(0));
+        fluidRenderer1.render(guiGraphics, x+76, y+21, menu.blockEntity.getTank(1));
+        fluidRenderer2.render(guiGraphics, x+88, y+16, menu.blockEntity.getTank(2));
+        fluidRenderer3.render(guiGraphics, x+100, y+11, menu.blockEntity.getTank(3));
+        fluidRenderer4.render(guiGraphics, x+112, y+6, menu.blockEntity.getTank(4));
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
      if(menu.isCrafting()) {
-         guiGraphics.blit(TEXTURE, x + 86, y + 31, 134, 0, 8, menu.getScaledProgress());
+         guiGraphics.blit(TEXTURE, x + 57, y + 59, 176, 0, menu.getScaledProgress(), 9);
+         guiGraphics.blit(TEXTURE, x + 68, y + 59, 187, 0, 2, 9-menu.getScaledProgress());
+         guiGraphics.blit(TEXTURE, x + 52, y + 27, 189, 0, 18, 13-menu.getScaledProgress());
      }
     }
 
