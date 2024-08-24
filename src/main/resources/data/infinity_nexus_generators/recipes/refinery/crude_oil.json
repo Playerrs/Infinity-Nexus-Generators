@@ -12,5 +12,12 @@
   "output": {
     "item": "infinity_nexus_generators:bitumen",
     "count": 1
-  }
+  },
+  "outputFluids": [
+    "infinity_nexus_generators:gasoline_fluid",
+    "infinity_nexus_generators:kerosene_fluid",
+    "infinity_nexus_generators:diesel_fluid",
+    "infinity_nexus_generators:lubricant_oil_fluid"
+  ],
+  "outputFluidsAmount": [50, 120, 380, 400]
 }

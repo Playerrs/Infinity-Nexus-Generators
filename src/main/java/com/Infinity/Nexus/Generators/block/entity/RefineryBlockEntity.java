@@ -10,6 +10,7 @@ import com.Infinity.Nexus.Generators.recipe.RefineryRecipes;
 import com.Infinity.Nexus.Generators.screen.refinery.RefineryMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -40,8 +41,11 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
 
@@ -221,6 +225,15 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
             return FluidStack.EMPTY;
         }
     }
+    private FluidTank getAboveFluidTank(int i) {
+        BlockPos blockPos = this.getBlockPos().above(i);
+        BlockEntity blockEntity = this.level.getBlockEntity(blockPos);
+        if (blockEntity instanceof FractionatingTankBlockEntity fractionatingTankBlockEntity) {
+            return fractionatingTankBlockEntity.getTank();
+        }else{
+            return null;
+        }
+    }
 
     public void setEnergyLevel(int energy) {
         this.ENERGY_STORAGE.setEnergy(energy);
@@ -278,11 +291,41 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     private void craftItem() {
         Optional<RefineryRecipes> recipe = getCurrentRecipe();
         ItemStack result = recipe.get().getResultItem(null);
+        List<FluidStack> outputFluid = recipe.get().getOutputFluids();
+        if(!hasFreeTankSpace(outputFluid)){
+            return;
+        }
+
+        getFreeTankSpace(outputFluid);
         this.FLUID_STORAGE.drain(recipe.get().getFluid().copy(), IFluidHandler.FluidAction.EXECUTE);
 
         this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
                 this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
 
+    }
+
+    private boolean hasFreeTankSpace(List<FluidStack> outputFluid) {
+        AtomicInteger space = new AtomicInteger(0);
+        for (int i = 0; i < outputFluid.size(); i++) {
+            FluidTank fluidTank = this.getAboveFluidTank(i);
+            if (fluidTank != null && fluidTank.getSpace() < outputFluid.get(i).getAmount()) {
+                space.incrementAndGet();
+            }
+        }
+        return space.get() < 4;
+    }
+
+    private void getFreeTankSpace(List<FluidStack> outputFluid) {
+        for (int i = 0; i < outputFluid.size(); i++) {
+            FluidStack fluidStack = outputFluid.get(i);
+            FluidTank fluidTank = this.getAboveFluidTank(i);
+            if (fluidTank != null && fluidTank.getCapacity() >= fluidStack.getAmount()+fluidTank.getFluid().getAmount()) {
+                if(fluidTank.getFluid() == fluidStack){
+                    fluidTank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                    System.out.println("FLUID: " + fluidTank.getFluid().getAmount());
+                }
+            }
+        }
     }
 
     private void resetProgress() {
