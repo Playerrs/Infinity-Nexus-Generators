@@ -4,6 +4,7 @@ import com.Infinity.Nexus.Generators.config.Config;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -56,7 +57,6 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
         super(ModBlockEntities.INDUSTRIAL_BARREL_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
 
-    //TODO TESTA AI PLAYER
     public void drops() {
         if(!FLUID_STORAGE.getFluid().isEmpty()) {
             ItemStack itemStack = new ItemStack(this.getBlockState().getBlock().asItem());
@@ -117,12 +117,12 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
             FluidStack tank = FLUID_STORAGE.getFluid();
             int amount = Math.min(iFluidHandlerItem.getFluidInTank(0).getAmount(), 1000);
             FluidStack fluidStack = iFluidHandlerItem.drain(iFluidHandlerItem.getFluidInTank(0).getAmount(), IFluidHandler.FluidAction.SIMULATE);
-            if(tank.isEmpty() || (fluidStack.getFluid().isSame(tank.getFluid())) && tank.getAmount()+amount < FLUID_STORAGE.getCapacity()) {
-                player.sendSystemMessage(Component.literal("Filling tank..."));
+            if(tank.isEmpty() || (fluidStack.getFluid().isSame(tank.getFluid())) && tank.getAmount()+amount <= FLUID_STORAGE.getCapacity()) {
+                //player.sendSystemMessage(Component.literal("Filling tank..."));
                 emptyBucket(this.getBlockState(), this.getLevel(), this.getBlockPos(), player, hand, tank.getFluid().getBucket().getDefaultInstance());
                 FLUID_STORAGE.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
             }else if(FLUID_STORAGE.getFluid().getAmount() >= 1000 && iFluidHandlerItem.getFluidInTank(0).isEmpty()){
-                player.sendSystemMessage(Component.literal("Filling bucket..."));
+                //player.sendSystemMessage(Component.literal("Filling bucket..."));
                 fillBucket(this.getBlockState(), this.getLevel(), this.getBlockPos(), player, hand, itemStack, tank.getFluid().getBucket().getDefaultInstance());
                 FLUID_STORAGE.drain(1000, IFluidHandler.FluidAction.EXECUTE);
             }
@@ -179,4 +179,5 @@ public class IndustrialBarrelBlockEntity extends BlockEntity {
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
     }
+
 }

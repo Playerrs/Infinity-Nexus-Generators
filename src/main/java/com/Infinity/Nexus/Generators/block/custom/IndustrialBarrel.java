@@ -1,9 +1,16 @@
 package com.Infinity.Nexus.Generators.block.custom;
 
 
+import com.Infinity.Nexus.Generators.block.entity.BarrelBlockEntity;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.block.entity.IndustrialBarrelBlockEntity;
+import com.Infinity.Nexus.Generators.config.Config;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -11,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -27,11 +35,14 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
+import javax.swing.text.AttributeSet;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class IndustrialBarrel extends BaseEntityBlock {
@@ -119,10 +130,19 @@ public class IndustrialBarrel extends BaseEntityBlock {
     @Override
     public void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
         FluidStack stack = FluidStack.loadFluidStackFromNBT(pStack.getTagElement("Fluid"));
-        IndustrialBarrelBlockEntity entity =  (IndustrialBarrelBlockEntity)pLevel.getBlockEntity(pPos);
-        if(entity != null && !pLevel.isClientSide()) {
-            entity.fillFluidFromNBT(stack);
+        if (pLevel.getBlockEntity(pPos) instanceof IndustrialBarrelBlockEntity) {
+            IndustrialBarrelBlockEntity entity =  (IndustrialBarrelBlockEntity)pLevel.getBlockEntity(pPos);
+            if(entity != null && !pLevel.isClientSide()) {
+                entity.fillFluidFromNBT(stack);
+            }
+        } else if (pLevel.getBlockEntity(pPos) instanceof BarrelBlockEntity) {
+            BarrelBlockEntity entity =  (BarrelBlockEntity)pLevel.getBlockEntity(pPos);
+            if(entity != null && !pLevel.isClientSide()) {
+                entity.fillFluidFromNBT(stack);
+            }
         }
+
+
         super.setPlacedBy(pLevel, pPos, pState, pPlacer, pStack);
     }
 
@@ -141,5 +161,19 @@ public class IndustrialBarrel extends BaseEntityBlock {
 
         return createTickerHelper(pBlockEntityType, ModBlockEntities.INDUSTRIAL_BARREL_BLOCK_ENTITY.get(),
                 (level, blockPos, blockState, industrialBarrelBlockEntity) -> industrialBarrelBlockEntity.tick(level, blockPos, blockState));
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter level, List<Component> components, TooltipFlag flag) {
+
+        if (stack.getTagElement("Fluid") != null) {
+            FluidStack fluidStack = FluidStack.loadFluidStackFromNBT(stack.getTagElement("Fluid"));
+            components.add(Component.literal("§b" + Component.translatable(fluidStack.getTranslationKey()).getString() + ": §r" + fluidStack.getAmount() + " mB"));
+        } else {
+            components.add(Component.translatable("tooltip.infinity_nexus_generators.industrial_barrel.empty"));
+        }
+
+        super.appendHoverText(stack, level, components, flag);
+
     }
 }

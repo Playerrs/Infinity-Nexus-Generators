@@ -3,9 +3,11 @@
 
   "item.infinity_nexus_generators.drill": "Drill",
   "item.infinity_nexus_generators.crude_oil_scanner": "Crude Oil Scanner",
+  "item.infinity_nexus_generators.bitumen": "Bitumen",
 
   "block.infinity_nexus_generators.refinery": "Refinery",
   "block.infinity_nexus_generators.industrial_barrel": "Industrial Barrel",
+  "block.infinity_nexus_generators.barrel": "Barrel",
 
   "item.infinity_nexus_generators.crude_oil_bucket": "Crude Oil Bucket",
   "item.infinity_nexus_generators.gasoline_bucket": "Gasoline Bucket",
@@ -18,5 +20,8 @@
   "fluid_type.infinity_nexus_generators.kerosene": "Kerosene",
   "fluid_type.infinity_nexus_generators.diesel": "Diesel",
   "fluid_type.infinity_nexus_generators.lubricant": "Lubricant",
-  "fluid_type.infinity_nexus_generators.rocket_fuel": "Rocket Fuel"
+  "fluid_type.infinity_nexus_generators.rocket_fuel": "Rocket Fuel",
+
+
+  "tooltip.infinity_nexus_generators.industrial_barrel.empty": "§4Empty"
 }

@@ -3,8 +3,12 @@
 
   "item.infinity_nexus_generators.drill": "Perfurador",
   "item.infinity_nexus_generators.crude_oil_scanner": "Escaner de Petróleo",
+  "item.infinity_nexus_generators.bitumen": "Bitumen",
 
   "block.infinity_nexus_generators.refinery": "Refinaria",
+  "block.infinity_nexus_generators.industrial_barrel": "Barril Industrial",
+  "block.infinity_nexus_generators.barrel": "Barril",
+
 
   "item.infinity_nexus_generators.crude_oil_bucket": "Balde de Petróleo ",
   "item.infinity_nexus_generators.gasoline_bucket": "Balde de Gasolina",
@@ -17,5 +21,8 @@
   "fluid_type.infinity_nexus_generators.kerosene": "Kerosena",
   "fluid_type.infinity_nexus_generators.diesel": "Diesel",
   "fluid_type.infinity_nexus_generators.lubricant": "Lubrificante",
-  "fluid_type.infinity_nexus_generators.rocket_fuel": "Combustível do Foguete"
+  "fluid_type.infinity_nexus_generators.rocket_fuel": "Combustível do Foguete",
+
+  "tooltip.infinity_nexus_generators.industrial_barrel.empty": "§4Empty"
+
 }
