@@ -1,10 +1,7 @@
 package com.Infinity.Nexus.Generators.block;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
-import com.Infinity.Nexus.Generators.block.custom.Barrel;
-import com.Infinity.Nexus.Generators.block.custom.FractionatingTank;
-import com.Infinity.Nexus.Generators.block.custom.IndustrialBarrel;
-import com.Infinity.Nexus.Generators.block.custom.Refinery;
+import com.Infinity.Nexus.Generators.block.custom.*;
 import com.Infinity.Nexus.Generators.fluid.ModFluids;
 import com.Infinity.Nexus.Generators.item.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -29,6 +26,9 @@ public class ModBlocks {
             () -> new Refinery(BlockBehaviour.Properties.copy(Blocks.GOLD_BLOCK).requiresCorrectToolForDrops().noParticlesOnBreak().mapColor(MapColor.TERRACOTTA_WHITE)));
     public static final RegistryObject<Block> FRACTIONATING_TANK = registerBlock("fractionating_tank",
             () -> new FractionatingTank(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noLootTable().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED)));
+public static final RegistryObject<Block> GASOLINE_POWERED_GENERATOR = registerBlock("gasoline_powered_generator",
+            () -> new GasPoweredGenerator(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noLootTable().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED)));
+
 
     public static final RegistryObject<Block> INDUSTRIAL_BARREL = registerBlock("industrial_barrel",
             () -> new IndustrialBarrel(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noLootTable().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED)));

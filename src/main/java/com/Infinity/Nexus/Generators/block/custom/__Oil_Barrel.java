@@ -16,10 +16,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
-public class Oil_Barrel extends Block{
+public class __Oil_Barrel extends Block{
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-    public Oil_Barrel(Properties pProperties) {super(pProperties);}
+    public __Oil_Barrel(Properties pProperties) {super(pProperties);}
 
     @Override
     public BlockState rotate(BlockState pState, Rotation pRotation) {

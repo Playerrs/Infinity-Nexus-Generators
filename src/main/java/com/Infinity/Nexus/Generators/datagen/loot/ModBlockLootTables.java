@@ -18,6 +18,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
     @Override
     protected void generate() {
         this.dropSelf(ModBlocks.REFINERY.get());
+        this.dropSelf(ModBlocks.GASOLINE_POWERED_GENERATOR.get());
     }
 
     @Override

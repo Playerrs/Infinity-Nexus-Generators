@@ -57,7 +57,6 @@ public class BarrelBlockEntity extends BlockEntity {
         super(ModBlockEntities.BARREL_BLOCK_ENTITY.get(), pPos, pBlockState);
     }
 
-    //TODO TESTA AI PLAYER
     public void drops() {
         if(!FLUID_STORAGE.getFluid().isEmpty()) {
             ItemStack itemStack = new ItemStack(this.getBlockState().getBlock().asItem());

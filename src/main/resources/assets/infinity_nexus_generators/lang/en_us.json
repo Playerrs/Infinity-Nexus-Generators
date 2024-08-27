@@ -23,5 +23,6 @@
   "fluid_type.infinity_nexus_generators.rocket_fuel": "Rocket Fuel",
 
 
-  "tooltip.infinity_nexus_generators.industrial_barrel.empty": "§4Empty"
+  "tooltip.infinity_nexus_generators.industrial_barrel.empty": "§4Empty",
+  "block.infinity_nexus_generators.gasoline_powered_generator": "Gasoline Powered Generator"
 }

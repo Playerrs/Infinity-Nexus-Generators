@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.generators_tab"))
                     .displayItems((displayParameters, output) -> {
                         output.accept(ModBlocks.REFINERY.get());
+                        output.accept(ModBlocks.GASOLINE_POWERED_GENERATOR.get());
 
                         output.accept(ModItems.DRILL.get());
                         output.accept(ModItems.CRUDE_OIL_SCANNER.get());
