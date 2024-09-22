@@ -295,8 +295,6 @@ public class GasPoweredGeneratorBlockEntity extends BlockEntity implements MenuP
         getFreeTankSpace(outputFluid);
         this.FLUID_STORAGE.drain(recipe.get().getFluid().copy(), IFluidHandler.FluidAction.EXECUTE);
 
-        this.itemHandler.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
-                this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
 
     }
 
@@ -346,21 +344,13 @@ public class GasPoweredGeneratorBlockEntity extends BlockEntity implements MenuP
         ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
 
 
-        return canInsertAmountIntoOutputSlot(result.getCount()) && canInsertItemIntoOutputSlot(result.getItem()) && hasRecipeFluidInInputTank(recipe.get().getFluid());
+        return hasRecipeFluidInInputTank(recipe.get().getFluid());
     }
 
      private boolean hasRecipeFluidInInputTank(FluidStack fluid) {
          return this.FLUID_STORAGE.getFluid().getFluid() == fluid.getFluid() && this.FLUID_STORAGE.getFluid().getAmount() >= fluid.getAmount();
      }
 
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() || this.itemHandler.getStackInSlot(OUTPUT_SLOT).is(item);
-    }
-
-    private boolean canInsertAmountIntoOutputSlot(int count) {
-        return this.itemHandler.getStackInSlot(OUTPUT_SLOT).isEmpty() ||
-                (this.itemHandler.getStackInSlot(OUTPUT_SLOT).getCount() + count) <= this.itemHandler.getSlotLimit(OUTPUT_SLOT);
-    }
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {

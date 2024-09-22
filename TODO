@@ -1,6 +1,6 @@
 
 
-- Nuclear
+> Nuclear
     - Machines
         > Separator
         > Enrichment Chamber > Uranium-235
@@ -10,7 +10,7 @@
     - Generator
         > Fission Reactor: forge:ingots/uranium, forge:ingots/enriched_uranium
 
-- Fossil
+> Fossil
     - Machines
         > Oil Pump > Vai ser feito beeem mais pra frente
         > Refinery > 4 slots e produz o barril/balde, com 5 tank n sei fazer > vai ser, mas o barril vai ser tipo um tank da pra por no chão
@@ -26,6 +26,7 @@
         > kerosene > ok
         > Diesel > ok
     - Generator
-        > Stirling Generator
         > Combustion Generator
-        > Turbine/Kinect
+
+
+> Unit Controller
