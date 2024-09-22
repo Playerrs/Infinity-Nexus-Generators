@@ -10,23 +10,50 @@
     - Generator
         > Fission Reactor: forge:ingots/uranium, forge:ingots/enriched_uranium
 
-> Fossil
+> Oil
     - Machines
-        > Oil Pump > Vai ser feito beeem mais pra frente
-        > Refinery > 4 slots e produz o barril/balde, com 5 tank n sei fazer > vai ser, mas o barril vai ser tipo um tank da pra por no chão
-    - Refined Fossil
-        > Gasoline > ok
-        > kerosene > ok
-        > Diesel > ok
-        > Lub Oil > ok
-        > Rocket Fuel > ok
-        > Asphalt
+        > Oil Pump > Vai puxar de qualquer lugar, vai usar a drill e ela vai ter durabilidade ou ter chance de ser consumida -> gera 500mb de Crude Oil
+        > Distillation tower > 4 slots e produz o barril/balde, com 5 tank n sei fazer > vai ser, mas o barril vai ser tipo um tank da pra por no chão
+        > Chemical Reactor
+        > Electric Mixer
+        > Centrifuge (Vai ser adicionado nas verões mais futuras [irrelevante agora])
+        > Electrolyzer
+    > Craftings:
+        > Crude Oil - 1000mb (Distillation Tower)
+            > Sulfuric Light Fuel - 500mb
+            > Sulfuric Heavy Fuel - 200mb
+            > Sulfuric Naphtha - 300mb
+
+        > Sulfuric Light Fuel - 12000mb + Hydrogen - 2000mb (Chemical Reactor)
+            > Light Fuel - 12000mb
+            {> Sulfuric Acid - 2000mb}
+
+        > Sulfuric Naphtha - 12000mb + Hydrogen - 2000mb (Chemical Reactor)
+            > Heavy Fuel - 12000mb
+            {> Sulfuric Acid - 2000mb}
+
+        > Sulfuric Naphtha - 12000mb + Hydrogen - 2000mb (Chemical Reactor)
+            > Naphtha - 12000mb
+            {> Sulfuric Acid - 2000mb}
+
+        > Heavy Fuel - 1000mb + Light Fuel - 5000mb (Electric Mixer)
+            > Diesel - 6000mb
+
+        > Water - 3000mb (Electrolyzer)
+            > Hydrogen - 2000mb
+            > Oxygen - 1000mb
+
+        > Naphtha - 200mb (Centrifuge)
+            > Wax - 1 Item
+            > Lubricant - 150mb
+
     - Fuels
-        > Gasoline > ok
-        > kerosene > ok
-        > Diesel > ok
+        > Diesel
+        > Boosted Diesel
     - Generator
-        > Combustion Generator
+        > LV Diesel Generator
+        > MV Diesel Generator
+        > HV Diesel Generator
 
 
 > Unit Controller
