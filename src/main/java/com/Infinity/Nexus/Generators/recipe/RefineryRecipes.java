@@ -91,13 +91,13 @@ public class RefineryRecipes implements Recipe<SimpleContainer> {
 
     public List<FluidStack> getOutputFluids() {
         List<FluidStack> fluids = new ArrayList<>();
-        System.out.println("FRUIDU: " + outputFluids.length);
-        System.out.println("FRUIDU: " + outputFluidsAmount.length);
+        //System.out.println("FRUIDU: " + outputFluids.length);
+        //System.out.println("FRUIDU: " + outputFluidsAmount.length);
         for (int i = 0; i < outputFluids.length; i++) {
             FluidStack fluidStack = new FluidStack(ForgeRegistries.FLUIDS.getValue(new ResourceLocation(outputFluids[i])), outputFluidsAmount[i]);
             if(fluidStack != null) {
-                System.out.println("FRUIDU: " + outputFluids[i]);
-                System.out.println("FRUIDU: " + outputFluidsAmount[i]);
+                //System.out.println("FRUIDU: " + outputFluids[i]);
+                //System.out.println("FRUIDU: " + outputFluidsAmount[i]);
                 fluids.add(fluidStack);
             }
         }

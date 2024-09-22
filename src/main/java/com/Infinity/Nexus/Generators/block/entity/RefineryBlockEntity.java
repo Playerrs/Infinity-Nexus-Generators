@@ -293,6 +293,7 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
         ItemStack result = recipe.get().getResultItem(null);
         List<FluidStack> outputFluid = recipe.get().getOutputFluids();
         if(!hasFreeTankSpace(outputFluid)){
+            System.out.println("Not enough space");
             return;
         }
 
@@ -307,22 +308,21 @@ public class RefineryBlockEntity extends BlockEntity implements MenuProvider {
     private boolean hasFreeTankSpace(List<FluidStack> outputFluid) {
         AtomicInteger space = new AtomicInteger(0);
         for (int i = 0; i < outputFluid.size(); i++) {
-            FluidTank fluidTank = this.getAboveFluidTank(i);
-            if (fluidTank != null && fluidTank.getSpace() < outputFluid.get(i).getAmount()) {
+            FluidTank fluidTank = this.getAboveFluidTank(i+1);
+            if (fluidTank != null && fluidTank.getSpace() > outputFluid.get(i).getAmount()) {
                 space.incrementAndGet();
             }
         }
-        return space.get() < 4;
+        return space.get() == 4;
     }
 
     private void getFreeTankSpace(List<FluidStack> outputFluid) {
         for (int i = 0; i < outputFluid.size(); i++) {
             FluidStack fluidStack = outputFluid.get(i);
-            FluidTank fluidTank = this.getAboveFluidTank(i);
-            if (fluidTank != null && fluidTank.getCapacity() >= fluidStack.getAmount()+fluidTank.getFluid().getAmount()) {
-                if(fluidTank.getFluid() == fluidStack){
+            FluidTank fluidTank = this.getAboveFluidTank(i+1);
+            if (fluidTank != null && fluidTank.getSpace() >= fluidStack.getAmount()) {
+                if(fluidTank.isEmpty() || fluidTank.getFluid().equals(fluidStack)) {
                     fluidTank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-                    System.out.println("FLUID: " + fluidTank.getFluid().getAmount());
                 }
             }
         }
