@@ -13,10 +13,10 @@
 > Oil
     - Machines
         > Oil Pump > Vai puxar de qualquer lugar, vai usar a drill e ela vai ter durabilidade ou ter chance de ser consumida -> gera 500mb de Crude Oil
-        > Distillation tower > 4 slots e produz o barril/balde, com 5 tank n sei fazer > vai ser, mas o barril vai ser tipo um tank da pra por no chão
+        > Distillation tower > fractioningiantianifigqui tank
         > Chemical Reactor
-        > Electric Mixer
-        > Centrifuge (Vai ser adicionado nas verões mais futuras [irrelevante agora])
+        > Mixer
+        > Centrifuge (Vai ser adicionado nas versões mais futuras [irrelevante agora])
         > Electrolyzer
     > Craftings:
         > Crude Oil - 1000mb (Distillation Tower)
@@ -36,7 +36,7 @@
             > Naphtha - 12000mb
             {> Sulfuric Acid - 2000mb}
 
-        > Heavy Fuel - 1000mb + Light Fuel - 5000mb (Electric Mixer)
+        > Heavy Fuel - 1000mb + Light Fuel - 5000mb (Mixer)
             > Diesel - 6000mb
 
         > Water - 3000mb (Electrolyzer)
