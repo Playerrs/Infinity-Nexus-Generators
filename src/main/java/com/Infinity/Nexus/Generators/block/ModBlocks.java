@@ -27,7 +27,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> FRACTIONATING_TANK = registerBlock("fractionating_tank",
             () -> new FractionatingTank(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noLootTable().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED)));
 public static final RegistryObject<Block> GASOLINE_POWERED_GENERATOR = registerBlock("gasoline_powered_generator",
-            () -> new GasPoweredGenerator(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noLootTable().strength(1.0F).mapColor(MapColor.TERRACOTTA_RED)));
+            () -> new GasPoweredGenerator(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).strength(1.0F).mapColor(MapColor.TERRACOTTA_RED)));
 
 
     public static final RegistryObject<Block> INDUSTRIAL_BARREL = registerBlock("industrial_barrel",

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": {"model": "infinity_nexus_generators:block/fractionating_tank"},
+    "facing=east": {"model": "infinity_nexus_generators:block/fractionating_tank", "y": 90},
+    "facing=south": {"model": "infinity_nexus_generators:block/fractionating_tank", "y": 180},
+    "facing=west": {"model": "infinity_nexus_generators:block/fractionating_tank", "y": 270}
+  }
+}

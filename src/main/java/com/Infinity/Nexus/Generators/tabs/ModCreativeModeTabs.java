@@ -1,4 +1,4 @@
-package com.Infinity.Nexus.Generators.CreativeTabs;
+package com.Infinity.Nexus.Generators.tabs;
 
 import com.Infinity.Nexus.Generators.InfinityNexusGenerators;
 import com.Infinity.Nexus.Generators.block.ModBlocks;

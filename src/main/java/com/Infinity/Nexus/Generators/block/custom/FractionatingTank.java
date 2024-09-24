@@ -9,21 +9,73 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+
 public class FractionatingTank extends BaseEntityBlock {
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public FractionatingTank(Properties pProperties) {
         super(pProperties);
     }
+    @Override
+    public BlockState rotate(BlockState pState, Rotation pRotation) {
+        return pState.setValue(FACING, pRotation.rotate(pState.getValue(FACING)));
+    }
 
+    @Override
+    public BlockState mirror(BlockState pState, Mirror pMirror) {
+        return pState.rotate(pMirror.getRotation(pState.getValue(FACING)));
+    }
+
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+        return this.defaultBlockState().setValue(FACING, pContext.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+        pBuilder.add(FACING);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return makeShape();
+    }
+
+    public VoxelShape makeShape(){
+        VoxelShape shape = Shapes.empty();
+        shape = Shapes.join(shape, Shapes.box(0.125, 0.0625, 0.125, 0.875, 0.9375, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.0625, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0.9375, 0, 1, 1, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.03125, 0.0625, 0.84375, 0.09375, 0.9375, 0.90625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.03125, 0.03125, 0.46875, 0.09375, 0.53125, 0.53125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.03125, 0.03125, 0.28125, 0.09375, 0.34375, 0.34375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.09375, 0.46875, 0.46875, 0.15625, 0.53125, 0.53125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.09375, 0.28125, 0.28125, 0.15625, 0.34375, 0.34375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.03125, 0.0625, 0.09375, 0.09375, 0.9375, 0.15625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.90625, 0.0625, 0.09375, 0.96875, 0.9375, 0.15625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.90625, 0.0625, 0.84375, 0.96875, 0.9375, 0.90625), BooleanOp.OR);
+
+        return shape;
+    }
     // BLOCK ENTITY
 
     @Override

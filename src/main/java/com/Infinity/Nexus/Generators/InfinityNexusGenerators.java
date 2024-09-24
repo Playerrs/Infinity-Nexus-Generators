@@ -1,6 +1,6 @@
 package com.Infinity.Nexus.Generators;
 
-import com.Infinity.Nexus.Generators.CreativeTabs.ModCreativeModeTabs;
+import com.Infinity.Nexus.Generators.tabs.ModCreativeModeTabs;
 import com.Infinity.Nexus.Generators.block.ModBlocks;
 import com.Infinity.Nexus.Generators.block.entity.ModBlockEntities;
 import com.Infinity.Nexus.Generators.config.Config;
@@ -38,13 +38,7 @@ public class InfinityNexusGenerators
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
 
-//    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
-//    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-//            .withTabsBefore(CreativeModeTabs.COMBAT)
-//            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
-//            .displayItems((parameters, output) -> {
-//                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-//            }).build());
+
 
     public InfinityNexusGenerators()
     {
@@ -102,15 +96,14 @@ public class InfinityNexusGenerators
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
+    public static class ClientModEvents {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event) {
             MenuScreens.register(ModMenuTypes.REFINERY_MENU.get(), RefineryScreen::new);
 
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.INDUSTRIAL_BARREL.get(), RenderType.cutoutMipped());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.BARREL.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.INDUSTRIAL_BARREL.get(), RenderType.cutoutMipped());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.FRACTIONATING_TANK.get(), RenderType.cutoutMipped());
 
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");

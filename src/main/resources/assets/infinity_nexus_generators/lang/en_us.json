@@ -8,6 +8,7 @@
   "block.infinity_nexus_generators.refinery": "Refinery",
   "block.infinity_nexus_generators.industrial_barrel": "Industrial Barrel",
   "block.infinity_nexus_generators.barrel": "Barrel",
+  "block.infinity_nexus_generators.fractionating_tank": "Fractionating Tank",
 
   "item.infinity_nexus_generators.crude_oil_bucket": "Crude Oil Bucket",
   "item.infinity_nexus_generators.gasoline_bucket": "Gasoline Bucket",

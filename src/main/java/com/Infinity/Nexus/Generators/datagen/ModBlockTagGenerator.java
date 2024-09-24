@@ -19,10 +19,11 @@ public class ModBlockTagGenerator extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                //Silver
                 .add(ModBlocks.BARREL.get())
                 .add(ModBlocks.INDUSTRIAL_BARREL.get())
-                .add(ModBlocks.REFINERY.get());
+                .add(ModBlocks.GASOLINE_POWERED_GENERATOR.get())
+                .add(ModBlocks.REFINERY.get())
+                .add(ModBlocks.FRACTIONATING_TANK.get());
     }
 
     @Override
